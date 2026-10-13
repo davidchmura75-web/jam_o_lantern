@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://c7qsw27mklywt"]
+
+[ext_resource type="Script" uid="uid://ducn0vdf7c6c6" path="res://scenes/line_2d.gd" id="2_paw1w"]
+
+[node name="TestLevel" type="Node2D" unique_id=1080932246]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1885072075]
+follow_viewport_enabled = true
+
+[node name="Y Axis" type="Line2D" parent="CanvasLayer" unique_id=1804053940]
+points = PackedVector2Array(0, -200, 0, 200)
+width = 3.0
+default_color = Color(0, 0, 0, 1)
+
+[node name="X Axis" type="Line2D" parent="CanvasLayer" unique_id=2004977129]
+points = PackedVector2Array(200, 0, -200, 0)
+width = 3.0
+default_color = Color(0, 0, 0, 1)
+
+[node name="Bounding Box" type="Line2D" parent="CanvasLayer" unique_id=437112445]
+points = PackedVector2Array(-200, -200, -200, 200, 200, 200, 200, -200, -200, -200)
+width = 7.0
+default_color = Color(0, 0, 0, 1)
+
+[node name="Line2D" type="Line2D" parent="CanvasLayer" unique_id=741569966]
+top_level = true
+width = 2.0
+default_color = Color(1, 0.49493217, 0.19291398, 1)
+script = ExtResource("2_paw1w")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1092544834]
+position = Vector2(-150, 0)
+zoom = Vector2(1.5, 1.5)

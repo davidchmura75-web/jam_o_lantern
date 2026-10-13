@@ -1,17 +1,16 @@
 [gd_scene format=3 uid="uid://c7qsw27mklywt"]
 
-[ext_resource type="Script" uid="uid://ducn0vdf7c6c6" path="res://scenes/line_2d.gd" id="2_paw1w"]
+[ext_resource type="Script" uid="uid://ba5uivnj3d3f4" path="res://scripts/control.gd" id="2_j6w7d"]
+[ext_resource type="Script" uid="uid://ducn0vdf7c6c6" path="res://scripts/line_2d.gd" id="2_paw1w"]
+[ext_resource type="Theme" uid="uid://omu8gim4ab6w" path="res://themes/spin_box_better.tres" id="3_j6w7d"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_x4b8f"]
+font_size = 24
 
 [node name="TestLevel" type="Node2D" unique_id=1080932246]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1885072075]
 follow_viewport_enabled = true
-
-[node name="Line2D" type="Line2D" parent="CanvasLayer" unique_id=741569966]
-top_level = true
-width = 2.0
-default_color = Color(1, 0.49493217, 0.19291398, 1)
-script = ExtResource("2_paw1w")
 
 [node name="Y Axis" type="Line2D" parent="CanvasLayer" unique_id=1804053940]
 points = PackedVector2Array(0, -200, 0, 200)
@@ -28,6 +27,117 @@ points = PackedVector2Array(-200, -200, -200, 200, 200, 200, 200, -200, -200, -2
 width = 7.0
 default_color = Color(0, 0, 0, 1)
 
+[node name="Line2D" type="Line2D" parent="CanvasLayer" unique_id=741569966]
+top_level = true
+width = 2.0
+default_color = Color(1, 0.49493217, 0.19291398, 1)
+script = ExtResource("2_paw1w")
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=366364760]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_j6w7d")
+
+[node name="Heading" type="Label" parent="CanvasLayer/Control" unique_id=1317702041]
+layout_mode = 0
+offset_left = -505.0
+offset_top = -199.0
+offset_right = -465.0
+offset_bottom = -176.0
+text = "Functions:"
+
+[node name="Linear Button" type="Button" parent="CanvasLayer/Control" unique_id=247994008]
+layout_mode = 0
+offset_left = -513.0
+offset_top = -167.0
+offset_right = -456.0
+offset_bottom = -136.0
+text = "Linear"
+
+[node name="Quadratic Button" type="Button" parent="CanvasLayer/Control" unique_id=84902863]
+layout_mode = 0
+offset_left = -451.0
+offset_top = -167.0
+offset_right = -366.0
+offset_bottom = -136.0
+text = "Quadratic"
+
+[node name="Exponential Button" type="Button" parent="CanvasLayer/Control" unique_id=1039435858]
+layout_mode = 0
+offset_left = -513.0
+offset_top = -133.0
+offset_right = -456.0
+offset_bottom = -102.0
+text = "Exponential"
+
+[node name="Sine Button" type="Button" parent="CanvasLayer/Control" unique_id=585538712]
+layout_mode = 0
+offset_left = -363.0
+offset_top = -167.0
+offset_right = -276.0
+offset_bottom = -136.0
+text = "Sine Wave"
+
+[node name="Logarithm Button" type="Button" parent="CanvasLayer/Control" unique_id=51854883]
+layout_mode = 0
+offset_left = -409.0
+offset_top = -133.0
+offset_right = -321.0
+offset_bottom = -102.0
+text = "Logarithm"
+
+[node name="Linear" type="Node" parent="CanvasLayer/Control" unique_id=1928169122]
+
+[node name="Linear Expression" type="Label" parent="CanvasLayer/Control/Linear" unique_id=1172061482]
+offset_left = -512.0
+offset_top = -28.0
+offset_right = -380.0
+offset_bottom = -5.0
+text = "y =                 * x + "
+label_settings = SubResource("LabelSettings_x4b8f")
+
+[node name="Linear Slope" type="SpinBox" parent="CanvasLayer/Control/Linear" unique_id=229283963]
+offset_left = -471.0
+offset_top = -31.0
+offset_right = -376.0
+offset_bottom = 11.0
+theme = ExtResource("3_j6w7d")
+min_value = -100.0
+step = 0.01
+
+[node name="Linear Intercept" type="SpinBox" parent="CanvasLayer/Control/Linear" unique_id=667777221]
+offset_left = -322.0
+offset_top = -32.0
+offset_right = -227.0
+offset_bottom = 10.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.1
+
+[node name="DrawButton" type="Button" parent="CanvasLayer/Control" unique_id=542135763]
+layout_mode = 0
+offset_left = -507.0
+offset_top = 160.0
+offset_right = -379.0
+offset_bottom = 208.0
+text = "Draw!"
+
+[node name="ClearButton" type="Button" parent="CanvasLayer/Control" unique_id=888193259]
+layout_mode = 0
+offset_left = -357.0
+offset_top = 160.0
+offset_right = -229.0
+offset_bottom = 208.0
+text = "Clear!"
+
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1092544834]
 position = Vector2(-150, 0)
 zoom = Vector2(1.5, 1.5)
+
+[connection signal="pressed" from="CanvasLayer/Control/Linear Button" to="CanvasLayer/Control" method="_on_linear_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Quadratic Button" to="CanvasLayer/Control" method="_on_quadratic_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/DrawButton" to="CanvasLayer/Control" method="_on_draw_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/ClearButton" to="CanvasLayer/Control" method="_on_clear_button_pressed"]
