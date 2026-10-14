@@ -1,11 +1,46 @@
 [gd_scene format=3 uid="uid://c7qsw27mklywt"]
 
+[ext_resource type="Script" uid="uid://dtp2w0j1v6wpm" path="res://scenes/points_control.gd" id="1_x4b8f"]
 [ext_resource type="Script" uid="uid://ba5uivnj3d3f4" path="res://scripts/control.gd" id="2_j6w7d"]
 [ext_resource type="Script" uid="uid://ducn0vdf7c6c6" path="res://scripts/line_2d.gd" id="2_paw1w"]
 [ext_resource type="Theme" uid="uid://omu8gim4ab6w" path="res://themes/spin_box_better.tres" id="3_j6w7d"]
 
+[sub_resource type="Gradient" id="Gradient_tmr53"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_x4b8f"]
+gradient = SubResource("Gradient_tmr53")
+width = 1
+height = 1
+
+[sub_resource type="Gradient" id="Gradient_x4b8f"]
+offsets = PackedFloat32Array(0, 0.18055555, 0.35416666, 0.5208333, 0.6736111, 0.8333333, 1)
+colors = PackedColorArray(0.8704305, 0, 0.010171953, 1, 0.91032237, 0.44308713, 0, 1, 0.89177644, 0.7648941, 0, 1, 0.26201585, 0.65547997, 7.70092e-07, 1, 0, 0.6374176, 0.7447441, 1, 0.19416365, 0.4360305, 1, 1, 0.6654328, 0.26845253, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tmr53"]
+gradient = SubResource("Gradient_x4b8f")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6pmnr"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(2, 2, 2)
+angle_min = -720.0
+angle_max = 720.0
+direction = Vector3(0, -1, 0)
+spread = 70.0
+initial_velocity_max = 416.66998
+angular_velocity_min = -483.89
+angular_velocity_max = -241.03001
+gravity = Vector3(0, 100, 0)
+scale_min = 9.0
+scale_max = 13.0
+scale_over_velocity_min = 180.0
+scale_over_velocity_max = 180.0
+color_initial_ramp = SubResource("GradientTexture1D_tmr53")
+
 [sub_resource type="LabelSettings" id="LabelSettings_x4b8f"]
 font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_j6w7d"]
 
 [node name="TestLevel" type="Node2D" unique_id=1080932246]
 
@@ -26,6 +61,42 @@ default_color = Color(0, 0, 0, 1)
 points = PackedVector2Array(-200, -200, -200, 200, 200, 200, 200, -200, -200, -200)
 width = 7.0
 default_color = Color(0, 0, 0, 1)
+
+[node name="PointsControl" type="Node2D" parent="CanvasLayer" unique_id=1965569445]
+script = ExtResource("1_x4b8f")
+
+[node name="Confetti" type="GPUParticles2D" parent="CanvasLayer/PointsControl" unique_id=1864707860]
+position = Vector2(265, 243)
+emitting = false
+amount = 200
+texture = SubResource("GradientTexture2D_x4b8f")
+lifetime = 10.0
+one_shot = true
+speed_scale = 2.0
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_6pmnr")
+
+[node name="Confetti2" type="GPUParticles2D" parent="CanvasLayer/PointsControl" unique_id=676903972]
+position = Vector2(-566, 241)
+emitting = false
+amount = 300
+texture = SubResource("GradientTexture2D_x4b8f")
+lifetime = 10.0
+one_shot = true
+speed_scale = 2.0
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_6pmnr")
+
+[node name="Confetti3" type="GPUParticles2D" parent="CanvasLayer/PointsControl" unique_id=1937499191]
+position = Vector2(-152, 246)
+emitting = false
+amount = 300
+texture = SubResource("GradientTexture2D_x4b8f")
+lifetime = 10.0
+one_shot = true
+speed_scale = 2.0
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_6pmnr")
 
 [node name="Line2D" type="Line2D" parent="CanvasLayer" unique_id=741569966]
 top_level = true
@@ -91,31 +162,87 @@ text = "Logarithm"
 [node name="Linear" type="Node" parent="CanvasLayer/Control" unique_id=1928169122]
 
 [node name="Linear Expression" type="Label" parent="CanvasLayer/Control/Linear" unique_id=1172061482]
-offset_left = -512.0
-offset_top = -28.0
-offset_right = -380.0
-offset_bottom = -5.0
-text = "y =                 * x + "
+offset_left = -510.0
+offset_top = -86.0
+offset_right = -347.0
+offset_bottom = -52.0
+text = "y =            * x + "
 label_settings = SubResource("LabelSettings_x4b8f")
 
 [node name="Linear Slope" type="SpinBox" parent="CanvasLayer/Control/Linear" unique_id=229283963]
-offset_left = -471.0
-offset_top = -31.0
-offset_right = -376.0
-offset_bottom = 11.0
+offset_left = -472.0
+offset_top = -90.0
+offset_right = -401.0
+offset_bottom = -48.0
 theme = ExtResource("3_j6w7d")
 min_value = -100.0
 step = 0.01
 
 [node name="Linear Intercept" type="SpinBox" parent="CanvasLayer/Control/Linear" unique_id=667777221]
-offset_left = -322.0
-offset_top = -32.0
-offset_right = -227.0
-offset_bottom = 10.0
+offset_left = -345.0
+offset_top = -90.0
+offset_right = -274.0
+offset_bottom = -48.0
 theme = ExtResource("3_j6w7d")
 min_value = -200.0
 max_value = 200.0
 step = 0.1
+
+[node name="Exponential" type="Node" parent="CanvasLayer/Control" unique_id=720766398]
+
+[node name="Exponent Expression" type="Label" parent="CanvasLayer/Control/Exponential" unique_id=2076098305]
+offset_left = -525.0
+offset_top = 17.0
+offset_right = -264.0
+offset_bottom = 51.0
+text = "y =              *             ^ (x -              ) + "
+label_settings = SubResource("LabelSettings_j6w7d")
+metadata/_edit_use_anchors_ = true
+
+[node name="Exponent A" type="SpinBox" parent="CanvasLayer/Control/Exponential" unique_id=662929428]
+offset_left = -501.0
+offset_top = 8.0
+offset_right = -430.0
+offset_bottom = 50.0
+theme = ExtResource("3_j6w7d")
+min_value = -100.0
+step = 0.01
+value = 1.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Exponent H" type="SpinBox" parent="CanvasLayer/Control/Exponential" unique_id=684600632]
+offset_left = -343.0
+offset_top = 8.0
+offset_right = -272.0
+offset_bottom = 50.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.1
+metadata/_edit_use_anchors_ = true
+
+[node name="Exponent B" type="SpinBox" parent="CanvasLayer/Control/Exponential" unique_id=1450437576]
+offset_left = -435.0
+offset_top = 8.0
+offset_right = -364.0
+offset_bottom = 50.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.1
+value = 1.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Exponent K" type="SpinBox" parent="CanvasLayer/Control/Exponential" unique_id=147725542]
+offset_left = -268.0
+offset_top = 8.0
+offset_right = -197.0
+offset_bottom = 50.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.1
+metadata/_edit_use_anchors_ = true
 
 [node name="DrawButton" type="Button" parent="CanvasLayer/Control" unique_id=542135763]
 layout_mode = 0
@@ -139,5 +266,6 @@ zoom = Vector2(1.5, 1.5)
 
 [connection signal="pressed" from="CanvasLayer/Control/Linear Button" to="CanvasLayer/Control" method="_on_linear_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/Quadratic Button" to="CanvasLayer/Control" method="_on_quadratic_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Exponential Button" to="CanvasLayer/Control" method="_on_exponential_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/DrawButton" to="CanvasLayer/Control" method="_on_draw_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/ClearButton" to="CanvasLayer/Control" method="_on_clear_button_pressed"]
