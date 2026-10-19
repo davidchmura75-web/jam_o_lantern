@@ -305,30 +305,30 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Quadratic Expression" type="Label" parent="CanvasLayer/Control/Quadratic" unique_id=753717545]
 anchors_preset = -1
-offset_left = -524.0
-offset_top = 108.0
-offset_right = -263.0
-offset_bottom = 150.0
+offset_left = -525.0
+offset_top = 37.0
+offset_right = -264.0
+offset_bottom = 79.0
 text = "y =                x ^ 2 +                 x + "
 label_settings = SubResource("LabelSettings_j6w7d")
 metadata/_edit_use_anchors_ = true
 
-[node name="Quad A" type="SpinBox" parent="CanvasLayer/Control/Quadratic" unique_id=2071456762]
-offset_left = -375.0
-offset_top = 101.0
-offset_right = -304.0
-offset_bottom = 143.0
+[node name="Quad B" type="SpinBox" parent="CanvasLayer/Control/Quadratic" unique_id=2071456762]
+offset_left = -376.0
+offset_top = 30.0
+offset_right = -305.0
+offset_bottom = 72.0
 theme = ExtResource("3_j6w7d")
 min_value = -200.0
 max_value = 200.0
 step = 0.1
 metadata/_edit_use_anchors_ = true
 
-[node name="Quad B" type="SpinBox" parent="CanvasLayer/Control/Quadratic" unique_id=1915819141]
-offset_left = -497.0
-offset_top = 101.0
-offset_right = -426.0
-offset_bottom = 143.0
+[node name="Quad A" type="SpinBox" parent="CanvasLayer/Control/Quadratic" unique_id=1915819141]
+offset_left = -498.0
+offset_top = 30.0
+offset_right = -427.0
+offset_bottom = 72.0
 theme = ExtResource("3_j6w7d")
 min_value = -200.0
 max_value = 200.0
@@ -337,10 +337,68 @@ value = 1.0
 metadata/_edit_use_anchors_ = true
 
 [node name="Quad C" type="SpinBox" parent="CanvasLayer/Control/Quadratic" unique_id=563798886]
-offset_left = -288.0
-offset_top = 102.0
-offset_right = -217.0
-offset_bottom = 144.0
+offset_left = -289.0
+offset_top = 31.0
+offset_right = -218.0
+offset_bottom = 73.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.1
+metadata/_edit_use_anchors_ = true
+
+[node name="Sine Wave" type="Node" parent="CanvasLayer/Control" unique_id=1062241244]
+
+[node name="Sine Expression" type="Label" parent="CanvasLayer/Control/Sine Wave" unique_id=1894421502]
+anchors_preset = -1
+offset_left = -531.0
+offset_top = 106.0
+offset_right = -262.0
+offset_bottom = 148.0
+text = "y =              sin(              x +              ) + "
+label_settings = SubResource("LabelSettings_j6w7d")
+metadata/_edit_use_anchors_ = true
+
+[node name="Sine A" type="SpinBox" parent="CanvasLayer/Control/Sine Wave" unique_id=1511392335]
+offset_left = -505.0
+offset_top = 98.0
+offset_right = -434.0
+offset_bottom = 140.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.1
+value = 1.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Sine B" type="SpinBox" parent="CanvasLayer/Control/Sine Wave" unique_id=1739380187]
+offset_left = -421.0
+offset_top = 98.0
+offset_right = -350.0
+offset_bottom = 140.0
+theme = ExtResource("3_j6w7d")
+min_value = -5.0
+max_value = 5.0
+step = 0.1
+value = 1.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Sine C" type="SpinBox" parent="CanvasLayer/Control/Sine Wave" unique_id=599686910]
+offset_left = -340.0
+offset_top = 98.0
+offset_right = -269.0
+offset_bottom = 140.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.1
+metadata/_edit_use_anchors_ = true
+
+[node name="Sine D" type="SpinBox" parent="CanvasLayer/Control/Sine Wave" unique_id=332408045]
+offset_left = -263.0
+offset_top = 98.0
+offset_right = -192.0
+offset_bottom = 140.0
 theme = ExtResource("3_j6w7d")
 min_value = -200.0
 max_value = 200.0
@@ -370,6 +428,7 @@ zoom = Vector2(1.5, 1.5)
 [connection signal="pressed" from="CanvasLayer/Control/Linear Button" to="CanvasLayer/Control" method="_on_linear_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/Quadratic Button" to="CanvasLayer/Control" method="_on_quadratic_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/Exponential Button" to="CanvasLayer/Control" method="_on_exponential_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Sine Button" to="CanvasLayer/Control" method="_on_sine_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/Logarithm Button" to="CanvasLayer/Control" method="_on_logarithm_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/DrawButton" to="CanvasLayer/Control" method="_on_draw_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/ClearButton" to="CanvasLayer/Control" method="_on_clear_button_pressed"]

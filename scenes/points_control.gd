@@ -2,10 +2,7 @@ extends Node2D
 
 @onready var line_2d: Line2D = $"../Line2D"
 
-var targets = [
-	[Vector2(0,0),Vector2(2,2)],
-	[Vector2(0,1),Vector2(1,2), Vector2(4,16)]
-	]
+var targets = load_point_rows("res://scripts/levels.txt")
 
 @onready var confetti: GPUParticles2D = $"../PointsControl/Confetti"
 @onready var confetti2: GPUParticles2D = $"../PointsControl/Confetti2"
@@ -48,3 +45,30 @@ func spawn_confetti() -> void:
 	confetti2.emitting = true
 	confetti3.restart()
 	confetti3.emitting = true
+
+# Reads a file where each line is points like (0,1),(1,2),(4,16)
+# Returns one Array[Vector2] per line, blank lines are skipped
+func load_point_rows(path: String) -> Array:
+	var rows = []
+	var file = FileAccess.open(path, FileAccess.READ)
+	if file == null:
+		push_error("Couldn't open %s: %s" % [path, error_string(FileAccess.get_open_error())])
+		return rows
+	# Matches one (x,y) pair, allows spaces, negatives and decimals like ( -1.5, .5 )
+	var regex = RegEx.new()
+	regex.compile("\\(\\s*([-+]?\\d*\\.?\\d+)\\s*,\\s*([-+]?\\d*\\.?\\d+)\\s*\\)")
+	var line_number = 0
+	while not file.eof_reached():
+		var line = file.get_line().strip_edges()
+		line_number += 1
+		if line.is_empty():
+			continue
+		var row: Array[Vector2] = []
+		for m in regex.search_all(line):
+			row.append(Vector2(m.get_string(1).to_float(), m.get_string(2).to_float()))
+		if row.is_empty():
+			push_warning("Line %d of %s has no (x,y) points, skipping it" % [line_number, path])
+			continue
+		rows.append(row)
+	return rows
+ 

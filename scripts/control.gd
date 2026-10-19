@@ -23,6 +23,11 @@ extends Control
 @onready var quad_b: SpinBox = $"Quadratic/Quad B"
 @onready var quad_c: SpinBox = $"Quadratic/Quad C"
 
+@onready var sine_expression: Label = $"Sine Wave/Sine Expression"
+@onready var sine_a: SpinBox = $"Sine Wave/Sine A"
+@onready var sine_b: SpinBox = $"Sine Wave/Sine B"
+@onready var sine_c: SpinBox = $"Sine Wave/Sine C"
+@onready var sine_d: SpinBox = $"Sine Wave/Sine D"
 
 @onready var points_control: Node2D = $"../PointsControl"
 
@@ -46,36 +51,43 @@ func _process(delta: float) -> void:
 			set_exponential_visible(false)
 			set_logarithm_visible(false)
 			set_quadratic_visible(false)
+			set_sine_visible(false)
 		functions.LINEAR:
 			set_linear_visible(true)
 			set_exponential_visible(false)
 			set_logarithm_visible(false)
 			set_quadratic_visible(false)
+			set_sine_visible(false)
 		functions.QUADRATIC:
 			set_linear_visible(false)
 			set_exponential_visible(false)
 			set_logarithm_visible(false)
 			set_quadratic_visible(true)
+			set_sine_visible(false)
 		functions.EXPONENTIAL:
 			set_linear_visible(false)
 			set_exponential_visible(true)
 			set_logarithm_visible(false)
 			set_quadratic_visible(false)
+			set_sine_visible(false)
 		functions.SINE:
 			set_linear_visible(false)
 			set_exponential_visible(false)
 			set_logarithm_visible(false)
 			set_quadratic_visible(false)
+			set_sine_visible(true)
 		functions.LOGARITHM:
 			set_linear_visible(false)
 			set_exponential_visible(false)
 			set_logarithm_visible(true)
 			set_quadratic_visible(false)
+			set_sine_visible(false)
 		_:
 			set_linear_visible(false)
 			set_exponential_visible(false)
 			set_logarithm_visible(false)
 			set_quadratic_visible(false)
+			set_sine_visible(false)
 
 
 func set_linear_visible(shown: bool):
@@ -103,6 +115,13 @@ func set_quadratic_visible(shown: bool):
 	quad_b.visible = shown
 	quad_c.visible = shown
 
+func set_sine_visible(shown: bool):
+	sine_expression.visible = shown
+	sine_a.visible = shown
+	sine_b.visible = shown
+	sine_c.visible = shown
+	sine_d.visible = shown
+
 func _on_linear_button_pressed() -> void:
 	current_function = functions.LINEAR
 
@@ -112,19 +131,19 @@ func _on_quadratic_button_pressed() -> void:
 func _on_draw_button_pressed() -> void:
 	match current_function:
 		functions.NONE:
-			await line_2d.clear_points()
+			line_2d.clear_points()
 		functions.LINEAR:
 			await points_control.points_hit(await line_2d.draw_linear(linear_slope.value, linear_intercept.value, points))
 		functions.QUADRATIC:
-			await line_2d.draw_general()
+			await points_control.points_hit(await line_2d.draw_quadratic(quad_a.value, quad_b.value, quad_c.value, points))
 		functions.EXPONENTIAL:
 			await points_control.points_hit(await line_2d.draw_exponential(exponent_a.value, exponent_b.value, exponent_h.value, exponent_k.value, points))
 		functions.SINE:
-			await line_2d.draw_general()
+			await points_control.points_hit(await line_2d.draw_sine(sine_a.value, sine_b.value, sine_c.value, sine_d.value, points))
 		functions.LOGARITHM:
 			await line_2d.draw_general()
 		_:
-			await line_2d.clear_points()
+			line_2d.clear_points()
 
 func _on_clear_button_pressed() -> void:
 	line_2d.clear_button_points()
@@ -134,3 +153,7 @@ func _on_exponential_button_pressed() -> void:
 
 func _on_logarithm_button_pressed() -> void:
 	current_function = functions.LOGARITHM
+
+
+func _on_sine_button_pressed() -> void:
+	current_function = functions.SINE
