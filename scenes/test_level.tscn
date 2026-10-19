@@ -192,18 +192,18 @@ step = 0.1
 
 [node name="Exponent Expression" type="Label" parent="CanvasLayer/Control/Exponential" unique_id=2076098305]
 offset_left = -525.0
-offset_top = 17.0
+offset_top = -28.0
 offset_right = -264.0
-offset_bottom = 51.0
+offset_bottom = 6.0
 text = "y =              *             ^ (x -              ) + "
 label_settings = SubResource("LabelSettings_j6w7d")
 metadata/_edit_use_anchors_ = true
 
 [node name="Exponent A" type="SpinBox" parent="CanvasLayer/Control/Exponential" unique_id=662929428]
 offset_left = -501.0
-offset_top = 8.0
+offset_top = -37.0
 offset_right = -430.0
-offset_bottom = 50.0
+offset_bottom = 5.0
 theme = ExtResource("3_j6w7d")
 min_value = -100.0
 step = 0.01
@@ -212,9 +212,9 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Exponent H" type="SpinBox" parent="CanvasLayer/Control/Exponential" unique_id=684600632]
 offset_left = -343.0
-offset_top = 8.0
+offset_top = -37.0
 offset_right = -272.0
-offset_bottom = 50.0
+offset_bottom = 5.0
 theme = ExtResource("3_j6w7d")
 min_value = -200.0
 max_value = 200.0
@@ -223,9 +223,9 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Exponent B" type="SpinBox" parent="CanvasLayer/Control/Exponential" unique_id=1450437576]
 offset_left = -435.0
-offset_top = 8.0
+offset_top = -37.0
 offset_right = -364.0
-offset_bottom = 50.0
+offset_bottom = 5.0
 theme = ExtResource("3_j6w7d")
 min_value = -200.0
 max_value = 200.0
@@ -235,9 +235,112 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Exponent K" type="SpinBox" parent="CanvasLayer/Control/Exponential" unique_id=147725542]
 offset_left = -268.0
-offset_top = 8.0
+offset_top = -37.0
 offset_right = -197.0
-offset_bottom = 50.0
+offset_bottom = 5.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.1
+metadata/_edit_use_anchors_ = true
+
+[node name="Logarithm" type="Node" parent="CanvasLayer/Control" unique_id=1183798845]
+
+[node name="Logarithm Expression" type="Label" parent="CanvasLayer/Control/Logarithm" unique_id=1203317095]
+offset_left = -525.0
+offset_top = 15.0
+offset_right = -264.0
+offset_bottom = 49.0
+text = "y =  log(x ^              +                ) +  
+
+base:"
+label_settings = SubResource("LabelSettings_j6w7d")
+metadata/_edit_use_anchors_ = true
+
+[node name="Log Base" type="SpinBox" parent="CanvasLayer/Control/Logarithm" unique_id=1290936365]
+offset_left = -482.0
+offset_top = 58.0
+offset_right = -411.0
+offset_bottom = 100.0
+theme = ExtResource("3_j6w7d")
+step = 0.01
+value = 1.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Log X Shift" type="SpinBox" parent="CanvasLayer/Control/Logarithm" unique_id=1853104542]
+offset_left = -372.0
+offset_top = 6.0
+offset_right = -301.0
+offset_bottom = 48.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.1
+metadata/_edit_use_anchors_ = true
+
+[node name="Log X Power" type="SpinBox" parent="CanvasLayer/Control/Logarithm" unique_id=860601506]
+offset_left = -442.0
+offset_top = 6.0
+offset_right = -371.0
+offset_bottom = 48.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.1
+value = 1.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Log Y Shift" type="SpinBox" parent="CanvasLayer/Control/Logarithm" unique_id=939009962]
+offset_left = -288.0
+offset_top = 7.0
+offset_right = -217.0
+offset_bottom = 49.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.1
+metadata/_edit_use_anchors_ = true
+
+[node name="Quadratic" type="Node" parent="CanvasLayer/Control" unique_id=95546932]
+
+[node name="Quadratic Expression" type="Label" parent="CanvasLayer/Control/Quadratic" unique_id=753717545]
+anchors_preset = -1
+offset_left = -524.0
+offset_top = 108.0
+offset_right = -263.0
+offset_bottom = 150.0
+text = "y =                x ^ 2 +                 x + "
+label_settings = SubResource("LabelSettings_j6w7d")
+metadata/_edit_use_anchors_ = true
+
+[node name="Quad A" type="SpinBox" parent="CanvasLayer/Control/Quadratic" unique_id=2071456762]
+offset_left = -375.0
+offset_top = 101.0
+offset_right = -304.0
+offset_bottom = 143.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.1
+metadata/_edit_use_anchors_ = true
+
+[node name="Quad B" type="SpinBox" parent="CanvasLayer/Control/Quadratic" unique_id=1915819141]
+offset_left = -497.0
+offset_top = 101.0
+offset_right = -426.0
+offset_bottom = 143.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.1
+value = 1.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Quad C" type="SpinBox" parent="CanvasLayer/Control/Quadratic" unique_id=563798886]
+offset_left = -288.0
+offset_top = 102.0
+offset_right = -217.0
+offset_bottom = 144.0
 theme = ExtResource("3_j6w7d")
 min_value = -200.0
 max_value = 200.0
@@ -267,5 +370,6 @@ zoom = Vector2(1.5, 1.5)
 [connection signal="pressed" from="CanvasLayer/Control/Linear Button" to="CanvasLayer/Control" method="_on_linear_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/Quadratic Button" to="CanvasLayer/Control" method="_on_quadratic_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/Exponential Button" to="CanvasLayer/Control" method="_on_exponential_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Logarithm Button" to="CanvasLayer/Control" method="_on_logarithm_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/DrawButton" to="CanvasLayer/Control" method="_on_draw_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/ClearButton" to="CanvasLayer/Control" method="_on_clear_button_pressed"]

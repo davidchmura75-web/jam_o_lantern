@@ -29,12 +29,13 @@ func _draw():
 
 func points_hit(result: bool):
 	if result:
+		spawn_confetti()
+		# await get_tree().create_timer(3).timeout
 		line_2d.clear_points()
 		level += 1
 		if level == len(targets):
 			level = 0
 		queue_redraw()
-		spawn_confetti()
 
 func get_targets():
 	return targets[level]
