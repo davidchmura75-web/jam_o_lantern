@@ -37,6 +37,7 @@ enum functions {NONE, LINEAR, QUADRATIC, EXPONENTIAL, SINE, LOGARITHM}
 var current_function = functions.NONE
 
 var points = []
+var drawing_in_progress = false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -129,21 +130,26 @@ func _on_quadratic_button_pressed() -> void:
 	current_function = functions.QUADRATIC
 
 func _on_draw_button_pressed() -> void:
+	if drawing_in_progress:
+		return
+	drawing_in_progress = true
+	var level_points = points
 	match current_function:
 		functions.NONE:
-			line_2d.clear_points()
+			line_2d.clear_segments()
 		functions.LINEAR:
-			await points_control.points_hit(await line_2d.draw_linear(linear_slope.value, linear_intercept.value, points))
+			await points_control.points_hit(await line_2d.draw_linear(linear_slope.value, linear_intercept.value, level_points))
 		functions.QUADRATIC:
-			await points_control.points_hit(await line_2d.draw_quadratic(quad_a.value, quad_b.value, quad_c.value, points))
+			await points_control.points_hit(await line_2d.draw_quadratic(quad_a.value, quad_b.value, quad_c.value, level_points))
 		functions.EXPONENTIAL:
-			await points_control.points_hit(await line_2d.draw_exponential(exponent_a.value, exponent_b.value, exponent_h.value, exponent_k.value, points))
+			await points_control.points_hit(await line_2d.draw_exponential(exponent_a.value, exponent_b.value, exponent_h.value, exponent_k.value, level_points))
 		functions.SINE:
-			await points_control.points_hit(await line_2d.draw_sine(sine_a.value, sine_b.value, sine_c.value, sine_d.value, points))
+			await points_control.points_hit(await line_2d.draw_sine(sine_a.value, sine_b.value, sine_c.value, sine_d.value, level_points))
 		functions.LOGARITHM:
 			await line_2d.draw_general()
 		_:
-			line_2d.clear_points()
+			line_2d.clear_segments()
+	drawing_in_progress = false
 
 func _on_clear_button_pressed() -> void:
 	line_2d.clear_button_points()

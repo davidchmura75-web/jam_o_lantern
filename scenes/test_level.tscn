@@ -421,6 +421,13 @@ offset_right = -229.0
 offset_bottom = 208.0
 text = "Clear!"
 
+[node name="Button" type="Button" parent="CanvasLayer/Control" unique_id=1063697781]
+layout_mode = 0
+offset_left = 209.0
+offset_top = -212.0
+offset_right = 229.0
+offset_bottom = -193.0
+
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1092544834]
 position = Vector2(-150, 0)
 zoom = Vector2(1.5, 1.5)

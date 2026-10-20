@@ -2,7 +2,38 @@ extends Node2D
 
 @onready var line_2d: Line2D = $"../Line2D"
 
-var targets = load_point_rows("res://scripts/levels.txt")
+
+
+
+func load_levels(path: String):
+	points = []
+	evil_points = []
+	var file = FileAccess.open(path, FileAccess.READ)
+	if file == null:
+		push_error("Couldn't open %s: %s" % [path, error_string(FileAccess.get_open_error())])
+		return
+	var number = "([-+]?\\d*\\.?\\d+)"
+	var regex = RegEx.new()
+	regex.compile("\\(\\s*" + number + "\\s*,\\s*" + number + "\\s*(?:,\\s*" + number + "\\s*)?\\)")
+	while not file.eof_reached():
+		var line = file.get_line().strip_edges()
+		if line.is_empty():
+			continue
+		var level_points: Array[Vector2] = []
+		var level_evil_points = []
+		for m in regex.search_all(line):
+			var pos = Vector2(m.get_string(1).to_float(), m.get_string(2).to_float())
+			if m.get_string(3).is_empty():
+				level_points.append(pos)
+			else:
+				level_evil_points.append([pos, m.get_string(3).to_float()])
+		points.append(level_points)
+		evil_points.append(level_evil_points)
+
+
+var points = []
+var evil_points = []
+
 
 @onready var confetti: GPUParticles2D = $"../PointsControl/Confetti"
 @onready var confetti2: GPUParticles2D = $"../PointsControl/Confetti2"
@@ -12,7 +43,8 @@ var targets = load_point_rows("res://scripts/levels.txt")
 var level = 0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	load_levels("res://scripts/levels.txt")
+	import_evil_points()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -21,23 +53,29 @@ func _process(delta: float) -> void:
 
 func _draw():
 	var radius = 4
-	for point in targets[level]:
+	for point in points[level]:
 		draw_circle(Vector2(point.x*10, -1 * point.y*10), radius, Color8(255, 235, 205))
 
 func points_hit(result: bool):
 	if result:
 		spawn_confetti()
 		# await get_tree().create_timer(3).timeout
-		line_2d.clear_points()
+		line_2d.clear_segments()
 		level += 1
-		if level == len(targets):
+		if level == len(points):
 			level = 0
+		import_evil_points()
 		queue_redraw()
 
 func get_targets():
-	return targets[level]
+	return points[level]
 
-	
+func get_evil_points():
+	return evil_points[level]
+
+func import_evil_points():
+	line_2d.set_level_evil_points(get_evil_points())
+
 func spawn_confetti() -> void:
 	confetti.restart()
 	confetti.emitting = true
@@ -45,30 +83,3 @@ func spawn_confetti() -> void:
 	confetti2.emitting = true
 	confetti3.restart()
 	confetti3.emitting = true
-
-# Reads a file where each line is points like (0,1),(1,2),(4,16)
-# Returns one Array[Vector2] per line, blank lines are skipped
-func load_point_rows(path: String) -> Array:
-	var rows = []
-	var file = FileAccess.open(path, FileAccess.READ)
-	if file == null:
-		push_error("Couldn't open %s: %s" % [path, error_string(FileAccess.get_open_error())])
-		return rows
-	# Matches one (x,y) pair, allows spaces, negatives and decimals like ( -1.5, .5 )
-	var regex = RegEx.new()
-	regex.compile("\\(\\s*([-+]?\\d*\\.?\\d+)\\s*,\\s*([-+]?\\d*\\.?\\d+)\\s*\\)")
-	var line_number = 0
-	while not file.eof_reached():
-		var line = file.get_line().strip_edges()
-		line_number += 1
-		if line.is_empty():
-			continue
-		var row: Array[Vector2] = []
-		for m in regex.search_all(line):
-			row.append(Vector2(m.get_string(1).to_float(), m.get_string(2).to_float()))
-		if row.is_empty():
-			push_warning("Line %d of %s has no (x,y) points, skipping it" % [line_number, path])
-			continue
-		rows.append(row)
-	return rows
- 

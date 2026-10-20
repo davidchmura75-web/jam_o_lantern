@@ -2,16 +2,40 @@ extends Line2D
 
 const HEIGHT = 200
 const WIDTH = 200
-const TOLERANCE = 0.75
+const TOLERANCE = 0.5
+# Multiplier for x, for example 0.1 reduces it from -200 to 200, to -20, 20
+const X_SCALE = 0.1
+# Y Scaling, times 10 makes it 20 tall
+# Keep 1 / X_SCALE equal to Y_SCALE or the evil points stop matching the graph's units in both directions
+const Y_SCALE = 10
+
+signal evil_point_hit(index)
+
+@export var evil_color: Color = Color(0.9, 0.1, 0.1):
+	set(value):
+		evil_color = value
+		_redraw_evil_points()
+@export var evil_points: Array = []:
+	set(value):
+		evil_points = value
+		_redraw_evil_points()
+
 var drawing = false
 # Goes up by one every draw, lets an old animated draw notice a newer one started and stop
 var draw_id = 0
 # Extra Line2D children, one for each piece of the graph after the first
 # A single Line2D always connects every point, so a new line is needed each time the graph re-enters the screen
 var extra_segments = []
+# Separate node the evil points are drawn on, z_index puts it above every line segment
+var evil_layer: Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	evil_layer = Node2D.new()
+	evil_layer.z_index = 1
+	add_child(evil_layer)
+	evil_layer.draw.connect(_draw_evil_points)
+	_redraw_evil_points()
 	draw_general()
 	#print(self.points)
 
@@ -19,6 +43,83 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
+
+# Turns graph units into the pixel position used by add_point
+# IMPORTANT - Godot flips y axis so always flip y in the point generation
+func graph_to_pixel(v: Vector2) -> Vector2:
+	return Vector2(v.x / X_SCALE, -1 * v.y * Y_SCALE)
+
+
+# ---------- Evil points ----------
+
+func add_evil_point(pos: Vector2, radius: float):
+	evil_points.append([pos, max(radius, 0.0)])
+	_redraw_evil_points()
+
+
+func move_evil_point(index: int, pos: Vector2):
+	evil_points[index][0] = pos
+	_redraw_evil_points()
+
+
+func set_evil_point_radius(index: int, radius: float):
+	evil_points[index][1] = max(radius, 0.0)
+	_redraw_evil_points()
+
+
+func remove_evil_point(index: int):
+	evil_points.remove_at(index)
+	_redraw_evil_points()
+
+
+func clear_evil_points():
+	evil_points = []
+
+
+func set_level_evil_points(level_evil_points):
+	evil_points = level_evil_points.duplicate(true)
+
+
+
+func _is_evil_point(entry) -> bool:
+	return entry is Array and entry.size() >= 2
+
+
+func _redraw_evil_points():
+	if evil_layer != null:
+		evil_layer.queue_redraw()
+
+
+func _draw_evil_points():
+	for entry in evil_points:
+		if not _is_evil_point(entry):
+			continue
+		var center = graph_to_pixel(entry[0])
+		var pixel_radius = float(entry[1]) * Y_SCALE
+		evil_layer.draw_circle(center, pixel_radius, evil_color)
+
+
+func get_hit_evil_points(samples) -> Array:
+	var hit = []
+	for index in evil_points.size():
+		var entry = evil_points[index]
+		if not _is_evil_point(entry):
+			continue
+		var center: Vector2 = entry[0]
+		var radius = float(entry[1])
+		for i in range(1, samples.size()):
+			var a = samples[i - 1]
+			var b = samples[i]
+			if not is_finite(a.y) or not is_finite(b.y):
+				continue
+			var closest = Geometry2D.get_closest_point_to_segment(center, a, b)
+			if closest.distance_to(center) < radius:
+				hit.append(index)
+				break
+	return hit
+
+
+# ---------- Graph drawing ----------
 
 # Clears this line and frees any extra segments from the last drawing
 func clear_segments():
@@ -45,17 +146,31 @@ func new_segment() -> Line2D:
 
 
 # Shared drawing for every function type, f takes an x value and returns a y value
-# Returns whether the function goes through all of the given points
+# Returns whether the function goes through all of the given points without touching an evil point
 func plot(f: Callable, points, animate := true) -> bool:
 	drawing = true
 	draw_id += 1
 	var my_id = draw_id
+	# Range is pixels that you want to draw
+	# Sample the whole function first so the evil point check is done before anything is drawn
+	var samples = []
+	for x in range(-WIDTH, WIDTH):
+		var x_val = x * X_SCALE
+		# this implementation works on y functions and parametric - {x(t), y(t)}
+		# parametric too op though have to ban it
+
+		# this could be any function, challenge is reading user input
+		# Templates could be additive, like adding trig to linear is interesting
+		samples.append(Vector2(x_val, f.call(x_val)))
 	var valid = true
 	for point in points:
 		var y_val = f.call(point.x)
 		# NaN fails every comparison, so check it directly or an undefined function would count as valid
 		if not is_finite(y_val) or abs(y_val - point.y) > TOLERANCE:
 			valid = false
+	var hit_evil_points = get_hit_evil_points(samples)
+	if not hit_evil_points.is_empty():
+		valid = false
 	clear_segments()
 	# The line currently being added to, starts as this line and swaps to a new segment on each re-entry
 	var segment: Line2D = self
@@ -63,31 +178,22 @@ func plot(f: Callable, points, animate := true) -> bool:
 	var last_point_oob = true
 	# Y value of the previous step, used to know which edge the graph is coming back in from
 	var last_y_val = NAN
-	var x_scale = 0.1
-	var y_scale = 10
-	# Range is pixels that you want to draw
-	for x in range(-WIDTH, WIDTH):
+	for i in samples.size():
 		if animate and valid:
 			await get_tree().create_timer(0.005).timeout
 			# A newer draw started while this one was waiting, stop so they don't draw on top of each other
 			if my_id != draw_id:
 				return valid
-		var x_val = x * x_scale # Multiplier for x, for example 0.1 reduces it from -200 to 200, to -20, 20
-		# this implementation works on y functions and parametric - {x(t), y(t)}
-		# parametric too op though have to ban it
-
-		# this could be any function, challenge is reading user input
-		# Templates could be additive, like adding trig to linear is interesting
-		var y_val = f.call(x_val)
-		# Y Scaling, times 10 makes it 20 tall
+		var x = i - WIDTH
+		var y_val = samples[i].y
 		# IMPORTANT - Godot flips y axis so always flip y in the point generation
-		var rel_point = Vector2(x, -1 * (y_val * y_scale))
+		var rel_point = Vector2(x, -1 * (y_val * Y_SCALE))
 		var global_point = rel_point
 
 		if is_nan(y_val):
 			# Undefined here (like a negative base to a fractional power), leave a gap with no edge point
 			last_point_oob = true
-		elif y_val * y_scale < HEIGHT and y_val * y_scale > -HEIGHT:
+		elif y_val * Y_SCALE < HEIGHT and y_val * Y_SCALE > -HEIGHT:
 			if last_point_oob:
 				# Coming back on screen, start a new segment so it doesn't connect to where it left
 				if segment_started:
@@ -107,6 +213,8 @@ func plot(f: Callable, points, animate := true) -> bool:
 			last_point_oob = true
 		last_y_val = y_val
 	drawing = false
+	for index in hit_evil_points:
+		evil_point_hit.emit(index)
 	return valid
 
 
@@ -130,8 +238,6 @@ func draw_quadratic(a, b, c, points):
 	# Standard form ax^2 + bx + c
 	return await plot(func(x_val): return a * x_val * x_val + b * x_val + c, points)
 
-func draw_sine(a, b, c, d, points):
-	return await plot(func(x_val): return a * sin(b * x_val + c) + d, points)
 
 func clear_button_points():
 	if not drawing:
