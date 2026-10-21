@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Jam O Lantern"
-run/main_scene="uid://c7qsw27mklywt"
+run/main_scene="uid://be6gtfjme3bbx"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 

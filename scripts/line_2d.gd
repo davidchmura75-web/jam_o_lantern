@@ -20,6 +20,9 @@ signal evil_point_hit(index)
 		evil_points = value
 		_redraw_evil_points()
 
+# Sound played when the graph goes through one of the points, rename the path if the child has a different name
+@onready var hit_sound: AudioStreamPlayer2D = $AudioStreamPlayer2D
+
 var drawing = false
 # Goes up by one every draw, lets an old animated draw notice a newer one started and stop
 var draw_id = 0
@@ -163,11 +166,15 @@ func plot(f: Callable, points, animate := true) -> bool:
 		# Templates could be additive, like adding trig to linear is interesting
 		samples.append(Vector2(x_val, f.call(x_val)))
 	var valid = true
+	# Pixel x of every point the function goes through, the sound plays when the line reaches each one
+	var hit_point_pixels = []
 	for point in points:
 		var y_val = f.call(point.x)
 		# NaN fails every comparison, so check it directly or an undefined function would count as valid
 		if not is_finite(y_val) or abs(y_val - point.y) > TOLERANCE:
 			valid = false
+		else:
+			hit_point_pixels.append(clampi(roundi(point.x / X_SCALE), -WIDTH, WIDTH - 1))
 	var hit_evil_points = get_hit_evil_points(samples)
 	if not hit_evil_points.is_empty():
 		valid = false
@@ -185,6 +192,8 @@ func plot(f: Callable, points, animate := true) -> bool:
 			if my_id != draw_id:
 				return valid
 		var x = i - WIDTH
+		if x in hit_point_pixels:
+			hit_sound.play()
 		var y_val = samples[i].y
 		# IMPORTANT - Godot flips y axis so always flip y in the point generation
 		var rel_point = Vector2(x, -1 * (y_val * Y_SCALE))

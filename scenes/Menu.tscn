@@ -1,5 +1,8 @@
 [gd_scene format=3 uid="uid://be6gtfjme3bbx"]
 
+[ext_resource type="Script" uid="uid://bxqfw00qdcxc0" path="res://scripts/menu.gd" id="1_upctu"]
+[ext_resource type="Texture2D" uid="uid://b567nyog26q5" path="res://sprites/what the hail.png" id="1_xdvgc"]
+
 [node name="Control" type="Control" unique_id=264328203]
 layout_mode = 3
 anchors_preset = 15
@@ -7,37 +10,67 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_upctu")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=803027498]
+z_index = -2
 layout_mode = 0
 offset_right = 1166.0
 offset_bottom = 659.0
+color = Color(0.8156863, 0.73333335, 0.6156863, 1)
 
-[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1019579044]
-layout_mode = 0
-offset_top = 2.0
-offset_right = 1152.0
-offset_bottom = 645.0
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2056837882]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -297.0
+offset_top = -15.0
+offset_right = 303.0
+offset_bottom = 335.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=2056837882]
+[node name="Play" type="Button" parent="VBoxContainer" unique_id=1987029984]
 layout_mode = 2
-
-[node name="Play" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1987029984]
-layout_mode = 2
+theme_override_font_sizes/font_size = 32
 text = "Play"
 
-[node name="Settings" type="Button" parent="CenterContainer/VBoxContainer" unique_id=194025968]
+[node name="Settings" type="Button" parent="VBoxContainer" unique_id=194025968]
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 text = "Settings"
 
-[node name="Daily" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1810140028]
+[node name="Daily" type="Button" parent="VBoxContainer" unique_id=1810140028]
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 text = "Daily"
 
-[node name="Editor" type="Button" parent="CenterContainer/VBoxContainer" unique_id=764085982]
+[node name="Editor" type="Button" parent="VBoxContainer" unique_id=764085982]
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 text = "Editor"
 
-[node name="Quit" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1497745422]
+[node name="Quit" type="Button" parent="VBoxContainer" unique_id=1497745422]
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 text = "Quit"
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1114788667]
+z_index = -1
+layout_mode = 0
+offset_left = 171.0
+offset_top = -35.0
+offset_right = 962.0
+offset_bottom = 347.0
+texture = ExtResource("1_xdvgc")
+expand_mode = 2
+
+[connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="VBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="VBoxContainer/Daily" to="." method="_on_daily_pressed"]
+[connection signal="pressed" from="VBoxContainer/Editor" to="." method="_on_editor_pressed"]
+[connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]

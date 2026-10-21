@@ -2,7 +2,7 @@ extends Node2D
 
 @onready var line_2d: Line2D = $"../Line2D"
 
-
+@onready var confetti_sound: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
 
 func load_levels(path: String):
@@ -83,3 +83,4 @@ func spawn_confetti() -> void:
 	confetti2.emitting = true
 	confetti3.restart()
 	confetti3.emitting = true
+	confetti_sound.play()

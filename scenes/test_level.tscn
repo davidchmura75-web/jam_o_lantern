@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://c7qsw27mklywt"]
 
-[ext_resource type="Script" uid="uid://dtp2w0j1v6wpm" path="res://scenes/points_control.gd" id="1_x4b8f"]
+[ext_resource type="Script" uid="uid://dtp2w0j1v6wpm" path="res://scripts/points_control.gd" id="1_x4b8f"]
 [ext_resource type="Script" uid="uid://ba5uivnj3d3f4" path="res://scripts/control.gd" id="2_j6w7d"]
 [ext_resource type="Script" uid="uid://ducn0vdf7c6c6" path="res://scripts/line_2d.gd" id="2_paw1w"]
+[ext_resource type="AudioStream" uid="uid://c421m6wdh66fw" path="res://sfx/u_jspnqv1glx-1gift-confetti-447240.mp3" id="2_qcd3b"]
 [ext_resource type="Theme" uid="uid://omu8gim4ab6w" path="res://themes/spin_box_better.tres" id="3_j6w7d"]
+[ext_resource type="AudioStream" uid="uid://dj7xyr2047nuk" path="res://sfx/freesound_community-water-drip-45622.mp3" id="3_tmr53"]
 
 [sub_resource type="Gradient" id="Gradient_tmr53"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
@@ -98,11 +100,17 @@ speed_scale = 2.0
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_6pmnr")
 
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="CanvasLayer/PointsControl" unique_id=249686502]
+stream = ExtResource("2_qcd3b")
+
 [node name="Line2D" type="Line2D" parent="CanvasLayer" unique_id=741569966]
 top_level = true
 width = 2.0
 default_color = Color(1, 0.49493217, 0.19291398, 1)
 script = ExtResource("2_paw1w")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="CanvasLayer/Line2D" unique_id=1700041014]
+stream = ExtResource("3_tmr53")
 
 [node name="Control" type="Control" parent="CanvasLayer" unique_id=366364760]
 layout_mode = 3
