@@ -1,11 +1,13 @@
 [gd_scene format=3 uid="uid://c7qsw27mklywt"]
 
+[ext_resource type="Script" uid="uid://d2qdmy3kipylu" path="res://scripts/draw_grid.gd" id="1_ahbqi"]
 [ext_resource type="Script" uid="uid://dtp2w0j1v6wpm" path="res://scripts/points_control.gd" id="1_x4b8f"]
 [ext_resource type="Script" uid="uid://ba5uivnj3d3f4" path="res://scripts/control.gd" id="2_j6w7d"]
 [ext_resource type="Script" uid="uid://ducn0vdf7c6c6" path="res://scripts/line_2d.gd" id="2_paw1w"]
 [ext_resource type="AudioStream" uid="uid://c421m6wdh66fw" path="res://sfx/u_jspnqv1glx-1gift-confetti-447240.mp3" id="2_qcd3b"]
 [ext_resource type="Theme" uid="uid://omu8gim4ab6w" path="res://themes/spin_box_better.tres" id="3_j6w7d"]
 [ext_resource type="AudioStream" uid="uid://dj7xyr2047nuk" path="res://sfx/freesound_community-water-drip-45622.mp3" id="3_tmr53"]
+[ext_resource type="Texture2D" uid="uid://bst3egq3ljyo1" path="res://sprites/gear.png" id="7_88ety"]
 
 [sub_resource type="Gradient" id="Gradient_tmr53"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
@@ -55,7 +57,7 @@ width = 3.0
 default_color = Color(0, 0, 0, 1)
 
 [node name="X Axis" type="Line2D" parent="CanvasLayer" unique_id=2004977129]
-points = PackedVector2Array(200, 0, -200, 0)
+points = PackedVector2Array(200, 0, -150.0733, 0, -200, 0)
 width = 3.0
 default_color = Color(0, 0, 0, 1)
 
@@ -63,6 +65,7 @@ default_color = Color(0, 0, 0, 1)
 points = PackedVector2Array(-200, -200, -200, 200, 200, 200, 200, -200, -200, -200)
 width = 7.0
 default_color = Color(0, 0, 0, 1)
+script = ExtResource("1_ahbqi")
 
 [node name="PointsControl" type="Node2D" parent="CanvasLayer" unique_id=1965569445]
 script = ExtResource("1_x4b8f")
@@ -271,8 +274,9 @@ offset_top = 58.0
 offset_right = -411.0
 offset_bottom = 100.0
 theme = ExtResource("3_j6w7d")
+max_value = 50.0
 step = 0.01
-value = 1.0
+value = 10.0
 metadata/_edit_use_anchors_ = true
 
 [node name="Log X Shift" type="SpinBox" parent="CanvasLayer/Control/Logarithm" unique_id=1853104542]
@@ -429,16 +433,18 @@ offset_right = -229.0
 offset_bottom = 208.0
 text = "Clear!"
 
-[node name="Button" type="Button" parent="CanvasLayer/Control" unique_id=1063697781]
+[node name="SettingsButton" type="Button" parent="CanvasLayer/Control" unique_id=1063697781]
 layout_mode = 0
-offset_left = 209.0
-offset_top = -212.0
-offset_right = 229.0
-offset_bottom = -193.0
+offset_left = 207.0
+offset_top = -225.0
+offset_right = 259.0
+offset_bottom = -175.0
+icon = ExtResource("7_88ety")
+expand_icon = true
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1092544834]
 position = Vector2(-150, 0)
-zoom = Vector2(1.5, 1.5)
+zoom = Vector2(1.4, 1.4)
 
 [connection signal="pressed" from="CanvasLayer/Control/Linear Button" to="CanvasLayer/Control" method="_on_linear_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/Quadratic Button" to="CanvasLayer/Control" method="_on_quadratic_button_pressed"]
@@ -447,3 +453,4 @@ zoom = Vector2(1.5, 1.5)
 [connection signal="pressed" from="CanvasLayer/Control/Logarithm Button" to="CanvasLayer/Control" method="_on_logarithm_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/DrawButton" to="CanvasLayer/Control" method="_on_draw_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/ClearButton" to="CanvasLayer/Control" method="_on_clear_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/SettingsButton" to="CanvasLayer/Control" method="_on_settings_button_pressed"]

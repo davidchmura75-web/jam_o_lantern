@@ -1,5 +1,16 @@
 [gd_scene format=3 uid="uid://br1h5uyldo46"]
 
+[ext_resource type="Script" uid="uid://cojwwigwuyyxa" path="res://scripts/settings.gd" id="1_5p8wc"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_cuw3m"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_xwb1m"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_1kcn2"]
+font_size = 32
+
 [node name="Settings" type="Control" unique_id=487692088]
 layout_mode = 3
 anchors_preset = 15
@@ -7,3 +18,83 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_5p8wc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=491146962]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -274.0
+offset_top = -310.0
+offset_right = 274.0
+offset_bottom = 310.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1542730709]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1873015647]
+layout_mode = 2
+text = "Sound Effects Volume:   "
+label_settings = SubResource("LabelSettings_cuw3m")
+
+[node name="SFX_Volume" type="HSlider" parent="VBoxContainer/HBoxContainer" unique_id=581975777]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer" unique_id=1923820828]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3" unique_id=452138044]
+layout_mode = 2
+text = "Difficulty:    "
+label_settings = SubResource("LabelSettings_xwb1m")
+
+[node name="Difficulty" type="OptionButton" parent="VBoxContainer/HBoxContainer3" unique_id=1104009236]
+layout_mode = 2
+selected = 0
+item_count = 4
+popup/item_0/text = "Easy"
+popup/item_0/id = 0
+popup/item_1/text = "Medium"
+popup/item_1/id = 1
+popup/item_2/text = "Hard"
+popup/item_2/id = 2
+popup/item_3/text = "Perfect"
+popup/item_3/id = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer" unique_id=601147744]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2" unique_id=509025582]
+layout_mode = 2
+text = "EVIL Mode:   "
+label_settings = SubResource("LabelSettings_1kcn2")
+
+[node name="CheckButton" type="CheckButton" parent="VBoxContainer/HBoxContainer2" unique_id=2123198283]
+layout_mode = 2
+
+[node name="BackToGame" type="Button" parent="VBoxContainer" unique_id=816864080]
+layout_mode = 2
+text = "Back to Game"
+
+[node name="BackToHome" type="Button" parent="VBoxContainer" unique_id=2109588664]
+layout_mode = 2
+text = "Back to Home"
+
+[connection signal="value_changed" from="VBoxContainer/HBoxContainer/SFX_Volume" to="." method="_on_sfx_volume_value_changed"]
+[connection signal="item_selected" from="VBoxContainer/HBoxContainer3/Difficulty" to="." method="_on_option_button_item_selected"]
+[connection signal="toggled" from="VBoxContainer/HBoxContainer2/CheckButton" to="." method="_on_check_button_toggled"]
+[connection signal="pressed" from="VBoxContainer/BackToGame" to="." method="_on_back_to_game_pressed"]
+[connection signal="pressed" from="VBoxContainer/BackToHome" to="." method="_on_back_to_home_pressed"]

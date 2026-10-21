@@ -39,8 +39,6 @@ var evil_points = []
 @onready var confetti2: GPUParticles2D = $"../PointsControl/Confetti2"
 @onready var confetti3: GPUParticles2D = $Confetti3
 
-
-var level = 0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	load_levels("res://scripts/levels.txt")
@@ -48,12 +46,12 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 func _draw():
 	var radius = 4
-	for point in points[level]:
+	for point in points[Globals.level]:
 		draw_circle(Vector2(point.x*10, -1 * point.y*10), radius, Color8(255, 235, 205))
 
 func points_hit(result: bool):
@@ -61,17 +59,17 @@ func points_hit(result: bool):
 		spawn_confetti()
 		# await get_tree().create_timer(3).timeout
 		line_2d.clear_segments()
-		level += 1
-		if level == len(points):
-			level = 0
+		Globals.level += 1
+		if Globals.level == len(points):
+			Globals.level = 0
 		import_evil_points()
 		queue_redraw()
 
 func get_targets():
-	return points[level]
+	return points[Globals.level]
 
 func get_evil_points():
-	return evil_points[level]
+	return evil_points[Globals.level]
 
 func import_evil_points():
 	line_2d.set_level_evil_points(get_evil_points())

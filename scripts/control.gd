@@ -44,7 +44,7 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	points = points_control.get_targets()
 	match current_function:
 		functions.NONE:
@@ -146,7 +146,7 @@ func _on_draw_button_pressed() -> void:
 		functions.SINE:
 			await points_control.points_hit(await line_2d.draw_sine(sine_a.value, sine_b.value, sine_c.value, sine_d.value, level_points))
 		functions.LOGARITHM:
-			await line_2d.draw_general()
+			await points_control.points_hit(await line_2d.draw_logarithm(log_x_power.value, log_x_shift.value, log_base.value, log_y_shift.value, level_points))
 		_:
 			line_2d.clear_segments()
 	drawing_in_progress = false
@@ -163,3 +163,7 @@ func _on_logarithm_button_pressed() -> void:
 
 func _on_sine_button_pressed() -> void:
 	current_function = functions.SINE
+
+
+func _on_settings_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenes/settings.tscn")

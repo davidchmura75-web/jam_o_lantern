@@ -1,3 +1,221 @@
-[gd_scene format=3 uid="uid://vvt573oajywu"]
+[gd_scene format=3 uid="uid://bdpqnok3hk1q0"]
 
-[node name="Editor" type="Node2D" unique_id=44664268]
+[ext_resource type="Script" uid="uid://cl6h7s0ngbj8s" path="res://scripts/level_editor.gd" id="1_pxqd5"]
+[ext_resource type="Theme" uid="uid://omu8gim4ab6w" path="res://themes/spin_box_better.tres" id="2_ba0ut"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font_size = 24
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_mode"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_help"]
+font_size = 12
+
+[node name="LevelEditor" type="Node2D" unique_id=1084360653]
+script = ExtResource("1_pxqd5")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2065179164]
+follow_viewport_enabled = true
+
+[node name="Grid" type="Node2D" parent="CanvasLayer" unique_id=290001698]
+unique_name_in_owner = true
+
+[node name="Y Axis" type="Line2D" parent="CanvasLayer" unique_id=245792898]
+points = PackedVector2Array(0, -200, 0, 200)
+width = 3.0
+default_color = Color(0, 0, 0, 1)
+
+[node name="X Axis" type="Line2D" parent="CanvasLayer" unique_id=839717035]
+points = PackedVector2Array(-200, 0, 200, 0)
+width = 3.0
+default_color = Color(0, 0, 0, 1)
+
+[node name="Bounding Box" type="Line2D" parent="CanvasLayer" unique_id=1636136207]
+points = PackedVector2Array(-200, -200, -200, 200, 200, 200, 200, -200, -200, -200)
+width = 7.0
+default_color = Color(0, 0, 0, 1)
+
+[node name="Items" type="Node2D" parent="CanvasLayer" unique_id=543709088]
+unique_name_in_owner = true
+
+[node name="UI" type="Control" parent="CanvasLayer" unique_id=1466262142]
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="CanvasLayer/UI" unique_id=457676630]
+layout_mode = 0
+offset_left = -525.0
+offset_top = -222.0
+offset_right = -345.0
+offset_bottom = -188.0
+text = "Level Editor"
+label_settings = SubResource("LabelSettings_title")
+
+[node name="BackButton" type="Button" parent="CanvasLayer/UI" unique_id=1658608205]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 199.0
+offset_top = -225.0
+offset_right = 259.0
+offset_bottom = -194.0
+text = "Menu"
+
+[node name="PlaceLabel" type="Label" parent="CanvasLayer/UI" unique_id=880890286]
+layout_mode = 0
+offset_left = -525.0
+offset_top = -180.0
+offset_right = -475.0
+offset_bottom = -157.0
+text = "Place:"
+
+[node name="PointButton" type="Button" parent="CanvasLayer/UI" unique_id=1176224568]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -470.0
+offset_top = -184.0
+offset_right = -405.0
+offset_bottom = -153.0
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_mode")
+text = "Point"
+
+[node name="EvilButton" type="Button" parent="CanvasLayer/UI" unique_id=1886183975]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -400.0
+offset_top = -184.0
+offset_right = -310.0
+offset_bottom = -153.0
+toggle_mode = true
+button_group = SubResource("ButtonGroup_mode")
+text = "Evil Point"
+
+[node name="RadiusLabel" type="Label" parent="CanvasLayer/UI" unique_id=1865301050]
+layout_mode = 0
+offset_left = -525.0
+offset_top = -136.0
+offset_right = -440.0
+offset_bottom = -113.0
+text = "Evil radius:"
+
+[node name="RadiusSpin" type="SpinBox" parent="CanvasLayer/UI" unique_id=1688267142]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -435.0
+offset_top = -146.0
+offset_right = -364.0
+offset_bottom = -104.0
+theme = ExtResource("2_ba0ut")
+min_value = 0.1
+max_value = 20.0
+step = 0.1
+value = 1.0
+
+[node name="SnapLabel" type="Label" parent="CanvasLayer/UI" unique_id=1272016546]
+layout_mode = 0
+offset_left = -525.0
+offset_top = -90.0
+offset_right = -480.0
+offset_bottom = -67.0
+text = "Snap:"
+
+[node name="SnapOption" type="OptionButton" parent="CanvasLayer/UI" unique_id=2110819297]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -470.0
+offset_top = -95.0
+offset_right = -395.0
+offset_bottom = -64.0
+
+[node name="UndoButton" type="Button" parent="CanvasLayer/UI" unique_id=1449211469]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -525.0
+offset_top = -50.0
+offset_right = -465.0
+offset_bottom = -19.0
+text = "Undo"
+
+[node name="ClearButton" type="Button" parent="CanvasLayer/UI" unique_id=787867673]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -460.0
+offset_top = -50.0
+offset_right = -400.0
+offset_bottom = -19.0
+text = "Clear"
+
+[node name="CopyButton" type="Button" parent="CanvasLayer/UI" unique_id=294123534]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -395.0
+offset_top = -50.0
+offset_right = -295.0
+offset_bottom = -19.0
+text = "Copy Line"
+
+[node name="AppendButton" type="Button" parent="CanvasLayer/UI" unique_id=1610206313]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -525.0
+offset_top = -10.0
+offset_right = -385.0
+offset_bottom = 26.0
+text = "Append to File..."
+
+[node name="NewFileButton" type="Button" parent="CanvasLayer/UI" unique_id=309816522]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -380.0
+offset_top = -10.0
+offset_right = -240.0
+offset_bottom = 26.0
+text = "Save New File..."
+
+[node name="InfoLabel" type="Label" parent="CanvasLayer/UI" unique_id=14621859]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -525.0
+offset_top = 36.0
+offset_right = -215.0
+offset_bottom = 59.0
+text = "x: -   y: -"
+
+[node name="HelpLabel" type="Label" parent="CanvasLayer/UI" unique_id=398968896]
+layout_mode = 0
+offset_left = -525.0
+offset_top = 64.0
+offset_right = -215.0
+offset_bottom = 166.0
+text = "Left click: place, or select and drag
+Shift + click: place on top of something
+Right click / Delete: remove
+Scroll: resize evil point (or the next radius)
+1 / 2: switch mode     Ctrl+Z: undo     Esc: deselect"
+label_settings = SubResource("LabelSettings_help")
+
+[node name="StatusLabel" type="Label" parent="CanvasLayer/UI" unique_id=699106715]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -525.0
+offset_top = 170.0
+offset_right = -215.0
+offset_bottom = 225.0
+autowrap_mode = 3
+
+[node name="FileDialog" type="FileDialog" parent="." unique_id=415347393]
+unique_name_in_owner = true
+size = Vector2i(700, 450)
+
+[node name="WarningDialog" type="ConfirmationDialog" parent="." unique_id=1218851766]
+unique_name_in_owner = true
+title = "Possible problems"
+size = Vector2i(440, 220)
+ok_button_text = "Save Anyway"
+dialog_autowrap = true
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1180439036]
+position = Vector2(-150, 0)
+zoom = Vector2(1.4, 1.4)

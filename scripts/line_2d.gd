@@ -2,7 +2,7 @@ extends Line2D
 
 const HEIGHT = 200
 const WIDTH = 200
-const TOLERANCE = 0.5
+var TOLERANCE = 0.5
 # Multiplier for x, for example 0.1 reduces it from -200 to 200, to -20, 20
 const X_SCALE = 0.1
 # Y Scaling, times 10 makes it 20 tall
@@ -43,8 +43,8 @@ func _ready() -> void:
 	#print(self.points)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func _process(_delta: float) -> void:
+	TOLERANCE = Globals.TOLERANCE
 
 
 # Turns graph units into the pixel position used by add_point
@@ -228,8 +228,7 @@ func plot(f: Callable, points, animate := true) -> bool:
 
 
 func draw_general():
-	# No points to check and no animation, so this runs all at once like before
-	plot(func(x_val): return 3 * sin(x_val), [], false)
+	pass
 
 
 func draw_linear(m, b, points):
@@ -246,6 +245,10 @@ func draw_exponential(a, b, h, k, points):
 func draw_quadratic(a, b, c, points):
 	# Standard form ax^2 + bx + c
 	return await plot(func(x_val): return a * x_val * x_val + b * x_val + c, points)
+
+func draw_logarithm(a, b, c, d, points):
+	# Standard form ax^2 + bx + c
+	return await plot(func(x_val): return (log(x_val ** a + b)/log(c)) + d, points)
 
 
 func clear_button_points():

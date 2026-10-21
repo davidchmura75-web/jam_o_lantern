@@ -15,6 +15,10 @@ run/main_scene="uid://be6gtfjme3bbx"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Globals="*uid://uxv6fcej4hgj"
+
 [display]
 
 window/stretch/mode="canvas_items"
@@ -27,4 +31,4 @@ window/stretch/aspect="expand"
 [rendering]
 
 rendering_device/driver.windows="d3d12"
-environment/defaults/default_clear_color=Color(0.31786978, 0.49702698, 0.35266018, 1)
+environment/defaults/default_clear_color=Color(0.58788574, 0.3946492, 0.3120921, 1)
