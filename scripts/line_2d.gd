@@ -281,6 +281,9 @@ func draw_logarithm(a, b, c, d, points):
 	# Standard form ax^2 + bx + c
 	return await plot(func(x_val): return (log(x_val ** a + b)/log(c)) + d, points)
 
+func draw_sine(a,b,c,d,points):
+	# Standard form asin(bx+c)+d
+	return await plot(func(x_val): return (a * sin(b * x_val + c) + d), points)
 
 func clear_button_points():
 	if not drawing:
