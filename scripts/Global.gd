@@ -5,7 +5,7 @@ var TOLERANCE = 0
 var volume = 0.5
 var evil_mode = false
 var level = 0
-
+var slow_mode = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

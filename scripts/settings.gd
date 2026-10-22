@@ -6,10 +6,12 @@ extends Control
 var bus_index: int
 
 @onready var sfx_volume: HSlider = $VBoxContainer/HBoxContainer/SFX_Volume
+@onready var slow_mode: OptionButton = $VBoxContainer/HBoxContainer4/SlowMode
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	difficulty.selected = Globals.difficulty
+	slow_mode.selected = Globals.slow_mode
 	bus_index = AudioServer.get_bus_index(bus_name)
 	# Initialize slider to current bus volume
 	sfx_volume.value = db_to_linear(AudioServer.get_bus_volume_db(bus_index))
@@ -39,3 +41,7 @@ func _on_option_button_item_selected(index: int) -> void:
 
 func _on_check_button_toggled(toggled_on: bool) -> void:
 	Globals.evil_mode = toggled_on
+
+
+func _on_slow_mode_item_selected(index: int) -> void:
+	Globals.slow_mode = index

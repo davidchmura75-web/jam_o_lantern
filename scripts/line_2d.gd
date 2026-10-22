@@ -8,6 +8,9 @@ const X_SCALE = 0.1
 # Y Scaling, times 10 makes it 20 tall
 # Keep 1 / X_SCALE equal to Y_SCALE or the evil points stop matching the graph's units in both directions
 const Y_SCALE = 10
+# How many graph points get drawn each frame while animating, higher is faster
+# 400 samples / 8 = 50 frames, about 0.8 seconds at 60 FPS
+const POINTS_PER_FRAME = 8
 
 signal evil_point_hit(index)
 
@@ -150,7 +153,7 @@ func new_segment() -> Line2D:
 
 # Shared drawing for every function type, f takes an x value and returns a y value
 # Returns whether the function goes through all of the given points without touching an evil point
-func plot(f: Callable, points, animate := true) -> bool:
+func plot(f: Callable, points, animate := false) -> bool:
 	drawing = true
 	draw_id += 1
 	var my_id = draw_id
@@ -185,9 +188,18 @@ func plot(f: Callable, points, animate := true) -> bool:
 	var last_point_oob = true
 	# Y value of the previous step, used to know which edge the graph is coming back in from
 	var last_y_val = NAN
+	# TODO - slow_mode 1 and the else branch both animate, so valid vs invalid makes no difference here
+	# If one of these cases was meant to skip the animation, set that branch to false
+	if Globals.slow_mode == 0:
+		animate = false
+	elif Globals.slow_mode == 1 and valid:
+		animate = true
+	elif Globals.slow_mode == 2:
+		animate = true
 	for i in samples.size():
-		if animate and valid:
-			await get_tree().create_timer(0.005).timeout
+		# Waiting always takes at least one frame, so draw POINTS_PER_FRAME points between each wait
+		if animate and i % POINTS_PER_FRAME == 0:
+			await get_tree().process_frame
 			# A newer draw started while this one was waiting, stop so they don't draw on top of each other
 			if my_id != draw_id:
 				return valid
