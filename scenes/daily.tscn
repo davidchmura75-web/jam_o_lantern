@@ -1,3 +1,535 @@
-[gd_scene format=3 uid="uid://hd06itqmj2j1"]
+[gd_scene format=3 uid="uid://s75diq40efb5"]
 
-[node name="Daily" type="Node2D" unique_id=860531522]
+[ext_resource type="Script" uid="uid://d2qdmy3kipylu" path="res://scripts/draw_grid.gd" id="1_ahbqi"]
+[ext_resource type="Script" uid="uid://ba5uivnj3d3f4" path="res://scripts/control.gd" id="2_j6w7d"]
+[ext_resource type="Script" uid="uid://ducn0vdf7c6c6" path="res://scripts/line_2d.gd" id="2_paw1w"]
+[ext_resource type="AudioStream" uid="uid://c421m6wdh66fw" path="res://sfx/u_jspnqv1glx-1gift-confetti-447240.mp3" id="2_qcd3b"]
+[ext_resource type="Theme" uid="uid://omu8gim4ab6w" path="res://themes/spin_box_better.tres" id="3_j6w7d"]
+[ext_resource type="AudioStream" uid="uid://dj7xyr2047nuk" path="res://sfx/freesound_community-water-drip-45622.mp3" id="3_tmr53"]
+[ext_resource type="AudioStream" uid="uid://cj32aso26qkf3" path="res://sfx/freesound_community-gong-54358.mp3" id="4_7gix3"]
+[ext_resource type="Texture2D" uid="uid://bst3egq3ljyo1" path="res://sprites/gear.png" id="7_88ety"]
+[ext_resource type="Script" uid="uid://8v7bfckyw6ir" path="res://scripts/daily_level.gd" id="8_daily"]
+[ext_resource type="Script" uid="uid://bt0qtvd0hqpa6" path="res://scripts/daily_points_control.gd" id="9_dailypc"]
+
+[sub_resource type="Gradient" id="Gradient_tmr53"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_x4b8f"]
+gradient = SubResource("Gradient_tmr53")
+width = 1
+height = 1
+
+[sub_resource type="Gradient" id="Gradient_x4b8f"]
+offsets = PackedFloat32Array(0, 0.18055555, 0.35416666, 0.5208333, 0.6736111, 0.8333333, 1)
+colors = PackedColorArray(0.8704305, 0, 0.010171953, 1, 0.91032237, 0.44308713, 0, 1, 0.89177644, 0.7648941, 0, 1, 0.26201585, 0.65547997, 7.70092e-07, 1, 0, 0.6374176, 0.7447441, 1, 0.19416365, 0.4360305, 1, 1, 0.6654328, 0.26845253, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tmr53"]
+gradient = SubResource("Gradient_x4b8f")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6pmnr"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(2, 2, 2)
+angle_min = -720.0
+angle_max = 720.0
+direction = Vector3(0, -1, 0)
+spread = 70.0
+initial_velocity_max = 416.66998
+angular_velocity_min = -483.89
+angular_velocity_max = -241.03001
+gravity = Vector3(0, 100, 0)
+scale_min = 9.0
+scale_max = 13.0
+scale_over_velocity_min = 180.0
+scale_over_velocity_max = 180.0
+color_initial_ramp = SubResource("GradientTexture1D_tmr53")
+
+[sub_resource type="LabelSettings" id="LabelSettings_x4b8f"]
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_j6w7d"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_win"]
+font_size = 56
+
+[node name="DailyLevel" type="Node2D" unique_id=1080932246]
+script = ExtResource("8_daily")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1885072075]
+follow_viewport_enabled = true
+
+[node name="Y Axis" type="Line2D" parent="CanvasLayer" unique_id=1804053940]
+points = PackedVector2Array(0, -200, 0, 200)
+width = 3.0
+default_color = Color(0, 0, 0, 1)
+
+[node name="X Axis" type="Line2D" parent="CanvasLayer" unique_id=2004977129]
+points = PackedVector2Array(200, 0, -150.0733, 0, -200, 0)
+width = 3.0
+default_color = Color(0, 0, 0, 1)
+
+[node name="Bounding Box" type="Line2D" parent="CanvasLayer" unique_id=437112445]
+points = PackedVector2Array(-200, -200, -200, 200, 200, 200, 200, -200, -200, -200)
+width = 7.0
+default_color = Color(0, 0, 0, 1)
+script = ExtResource("1_ahbqi")
+
+[node name="PointsControl" type="Node2D" parent="CanvasLayer" unique_id=1965569445]
+script = ExtResource("9_dailypc")
+daily_file = null
+
+[node name="Confetti" type="GPUParticles2D" parent="CanvasLayer/PointsControl" unique_id=1864707860]
+position = Vector2(265, 243)
+emitting = false
+amount = 200
+texture = SubResource("GradientTexture2D_x4b8f")
+lifetime = 10.0
+one_shot = true
+speed_scale = 2.0
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_6pmnr")
+
+[node name="Confetti2" type="GPUParticles2D" parent="CanvasLayer/PointsControl" unique_id=676903972]
+position = Vector2(-566, 241)
+emitting = false
+amount = 300
+texture = SubResource("GradientTexture2D_x4b8f")
+lifetime = 10.0
+one_shot = true
+speed_scale = 2.0
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_6pmnr")
+
+[node name="Confetti3" type="GPUParticles2D" parent="CanvasLayer/PointsControl" unique_id=1937499191]
+position = Vector2(-152, 246)
+emitting = false
+amount = 300
+texture = SubResource("GradientTexture2D_x4b8f")
+lifetime = 10.0
+one_shot = true
+speed_scale = 2.0
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_6pmnr")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="CanvasLayer/PointsControl" unique_id=249686502]
+stream = ExtResource("2_qcd3b")
+
+[node name="EVILAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="CanvasLayer/PointsControl" unique_id=442264993]
+stream = ExtResource("4_7gix3")
+volume_db = 4.136
+
+[node name="Line2D" type="Line2D" parent="CanvasLayer" unique_id=741569966]
+top_level = true
+width = 2.0
+default_color = Color(1, 0.49493217, 0.19291398, 1)
+script = ExtResource("2_paw1w")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="CanvasLayer/Line2D" unique_id=1700041014]
+stream = ExtResource("3_tmr53")
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=366364760]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_j6w7d")
+
+[node name="Heading" type="Label" parent="CanvasLayer/Control" unique_id=1317702041]
+layout_mode = 0
+offset_left = -505.0
+offset_top = -199.0
+offset_right = -465.0
+offset_bottom = -176.0
+text = "Functions:"
+
+[node name="Linear Button" type="Button" parent="CanvasLayer/Control" unique_id=247994008]
+layout_mode = 0
+offset_left = -513.0
+offset_top = -167.0
+offset_right = -456.0
+offset_bottom = -136.0
+text = "Linear"
+
+[node name="Quadratic Button" type="Button" parent="CanvasLayer/Control" unique_id=84902863]
+layout_mode = 0
+offset_left = -451.0
+offset_top = -167.0
+offset_right = -366.0
+offset_bottom = -136.0
+text = "Quadratic"
+
+[node name="Exponential Button" type="Button" parent="CanvasLayer/Control" unique_id=1039435858]
+layout_mode = 0
+offset_left = -513.0
+offset_top = -133.0
+offset_right = -456.0
+offset_bottom = -102.0
+text = "Exponential"
+
+[node name="Sine Button" type="Button" parent="CanvasLayer/Control" unique_id=585538712]
+layout_mode = 0
+offset_left = -363.0
+offset_top = -167.0
+offset_right = -276.0
+offset_bottom = -136.0
+text = "Sine Wave"
+
+[node name="Logarithm Button" type="Button" parent="CanvasLayer/Control" unique_id=51854883]
+layout_mode = 0
+offset_left = -409.0
+offset_top = -133.0
+offset_right = -321.0
+offset_bottom = -102.0
+text = "Logarithm"
+
+[node name="Linear" type="Node" parent="CanvasLayer/Control" unique_id=1928169122]
+
+[node name="Linear Expression" type="Label" parent="CanvasLayer/Control/Linear" unique_id=1172061482]
+offset_left = -510.0
+offset_top = -86.0
+offset_right = -347.0
+offset_bottom = -52.0
+text = "y =            * x + "
+label_settings = SubResource("LabelSettings_x4b8f")
+
+[node name="Linear Slope" type="SpinBox" parent="CanvasLayer/Control/Linear" unique_id=229283963]
+offset_left = -472.0
+offset_top = -90.0
+offset_right = -401.0
+offset_bottom = -48.0
+theme = ExtResource("3_j6w7d")
+min_value = -100.0
+step = 0.001
+
+[node name="Linear Intercept" type="SpinBox" parent="CanvasLayer/Control/Linear" unique_id=667777221]
+offset_left = -345.0
+offset_top = -90.0
+offset_right = -274.0
+offset_bottom = -48.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.001
+
+[node name="Exponential" type="Node" parent="CanvasLayer/Control" unique_id=720766398]
+
+[node name="Exponent Expression" type="Label" parent="CanvasLayer/Control/Exponential" unique_id=2076098305]
+offset_left = -525.0
+offset_top = -28.0
+offset_right = -264.0
+offset_bottom = 6.0
+text = "y =              *             ^ (x -              ) + "
+label_settings = SubResource("LabelSettings_j6w7d")
+metadata/_edit_use_anchors_ = true
+
+[node name="Exponent A" type="SpinBox" parent="CanvasLayer/Control/Exponential" unique_id=662929428]
+offset_left = -501.0
+offset_top = -37.0
+offset_right = -430.0
+offset_bottom = 5.0
+theme = ExtResource("3_j6w7d")
+min_value = -100.0
+step = 0.001
+value = 1.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Exponent H" type="SpinBox" parent="CanvasLayer/Control/Exponential" unique_id=684600632]
+offset_left = -343.0
+offset_top = -37.0
+offset_right = -272.0
+offset_bottom = 5.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.001
+metadata/_edit_use_anchors_ = true
+
+[node name="Exponent B" type="SpinBox" parent="CanvasLayer/Control/Exponential" unique_id=1450437576]
+offset_left = -435.0
+offset_top = -37.0
+offset_right = -364.0
+offset_bottom = 5.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.001
+value = 1.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Exponent K" type="SpinBox" parent="CanvasLayer/Control/Exponential" unique_id=147725542]
+offset_left = -268.0
+offset_top = -37.0
+offset_right = -197.0
+offset_bottom = 5.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.001
+metadata/_edit_use_anchors_ = true
+
+[node name="Logarithm" type="Node" parent="CanvasLayer/Control" unique_id=1183798845]
+
+[node name="Logarithm Expression" type="Label" parent="CanvasLayer/Control/Logarithm" unique_id=1203317095]
+offset_left = -525.0
+offset_top = 15.0
+offset_right = -264.0
+offset_bottom = 49.0
+text = "y =  log(x ^              +                ) +  
+
+base:"
+label_settings = SubResource("LabelSettings_j6w7d")
+metadata/_edit_use_anchors_ = true
+
+[node name="Log Base" type="SpinBox" parent="CanvasLayer/Control/Logarithm" unique_id=1290936365]
+offset_left = -482.0
+offset_top = 58.0
+offset_right = -411.0
+offset_bottom = 100.0
+theme = ExtResource("3_j6w7d")
+max_value = 50.0
+step = 0.001
+value = 10.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Log X Shift" type="SpinBox" parent="CanvasLayer/Control/Logarithm" unique_id=1853104542]
+offset_left = -372.0
+offset_top = 6.0
+offset_right = -301.0
+offset_bottom = 48.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.001
+metadata/_edit_use_anchors_ = true
+
+[node name="Log X Power" type="SpinBox" parent="CanvasLayer/Control/Logarithm" unique_id=860601506]
+offset_left = -442.0
+offset_top = 6.0
+offset_right = -371.0
+offset_bottom = 48.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.001
+value = 1.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Log Y Shift" type="SpinBox" parent="CanvasLayer/Control/Logarithm" unique_id=939009962]
+offset_left = -288.0
+offset_top = 7.0
+offset_right = -217.0
+offset_bottom = 49.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.001
+metadata/_edit_use_anchors_ = true
+
+[node name="Quadratic" type="Node" parent="CanvasLayer/Control" unique_id=95546932]
+
+[node name="Quadratic Expression" type="Label" parent="CanvasLayer/Control/Quadratic" unique_id=753717545]
+anchors_preset = -1
+offset_left = -525.0
+offset_top = 37.0
+offset_right = -264.0
+offset_bottom = 79.0
+text = "y =                x ^ 2 +                 x + "
+label_settings = SubResource("LabelSettings_j6w7d")
+metadata/_edit_use_anchors_ = true
+
+[node name="Quad B" type="SpinBox" parent="CanvasLayer/Control/Quadratic" unique_id=2071456762]
+offset_left = -376.0
+offset_top = 30.0
+offset_right = -305.0
+offset_bottom = 72.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.001
+metadata/_edit_use_anchors_ = true
+
+[node name="Quad A" type="SpinBox" parent="CanvasLayer/Control/Quadratic" unique_id=1915819141]
+offset_left = -498.0
+offset_top = 30.0
+offset_right = -427.0
+offset_bottom = 72.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.001
+value = 1.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Quad C" type="SpinBox" parent="CanvasLayer/Control/Quadratic" unique_id=563798886]
+offset_left = -289.0
+offset_top = 31.0
+offset_right = -218.0
+offset_bottom = 73.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.001
+metadata/_edit_use_anchors_ = true
+
+[node name="Sine Wave" type="Node" parent="CanvasLayer/Control" unique_id=1062241244]
+
+[node name="Sine Expression" type="Label" parent="CanvasLayer/Control/Sine Wave" unique_id=1894421502]
+anchors_preset = -1
+offset_left = -531.0
+offset_top = 106.0
+offset_right = -262.0
+offset_bottom = 148.0
+text = "y =              sin(              x +              ) + "
+label_settings = SubResource("LabelSettings_j6w7d")
+metadata/_edit_use_anchors_ = true
+
+[node name="Sine A" type="SpinBox" parent="CanvasLayer/Control/Sine Wave" unique_id=1511392335]
+offset_left = -505.0
+offset_top = 98.0
+offset_right = -434.0
+offset_bottom = 140.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.001
+value = 1.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Sine B" type="SpinBox" parent="CanvasLayer/Control/Sine Wave" unique_id=1739380187]
+offset_left = -421.0
+offset_top = 98.0
+offset_right = -350.0
+offset_bottom = 140.0
+theme = ExtResource("3_j6w7d")
+min_value = -5.0
+max_value = 5.0
+step = 0.001
+value = 1.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Sine C" type="SpinBox" parent="CanvasLayer/Control/Sine Wave" unique_id=599686910]
+offset_left = -340.0
+offset_top = 98.0
+offset_right = -269.0
+offset_bottom = 140.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.001
+metadata/_edit_use_anchors_ = true
+
+[node name="Sine D" type="SpinBox" parent="CanvasLayer/Control/Sine Wave" unique_id=332408045]
+offset_left = -263.0
+offset_top = 98.0
+offset_right = -192.0
+offset_bottom = 140.0
+theme = ExtResource("3_j6w7d")
+min_value = -200.0
+max_value = 200.0
+step = 0.001
+metadata/_edit_use_anchors_ = true
+
+[node name="DrawButton" type="Button" parent="CanvasLayer/Control" unique_id=542135763]
+layout_mode = 0
+offset_left = -507.0
+offset_top = 160.0
+offset_right = -379.0
+offset_bottom = 208.0
+text = "Draw!"
+
+[node name="ClearButton" type="Button" parent="CanvasLayer/Control" unique_id=888193259]
+layout_mode = 0
+offset_left = -357.0
+offset_top = 160.0
+offset_right = -229.0
+offset_bottom = 208.0
+text = "Clear!"
+
+[node name="SettingsButton" type="Button" parent="CanvasLayer/Control" unique_id=1063697781]
+layout_mode = 0
+offset_left = 207.0
+offset_top = -225.0
+offset_right = 259.0
+offset_bottom = -175.0
+icon = ExtResource("7_88ety")
+expand_icon = true
+
+[node name="TimerLabel" type="Label" parent="CanvasLayer/Control" unique_id=1517203398]
+layout_mode = 0
+offset_left = -363.0
+offset_top = -211.0
+offset_right = -233.0
+offset_bottom = -177.0
+text = "00:00.00"
+label_settings = SubResource("LabelSettings_x4b8f")
+horizontal_alignment = 2
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1092544834]
+position = Vector2(-150, 0)
+zoom = Vector2(1.4, 1.4)
+
+[node name="WinLayer" type="CanvasLayer" parent="." unique_id=1748211906]
+layer = 10
+
+[node name="WinScreen" type="Control" parent="WinLayer" unique_id=903318457]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="WinLayer/WinScreen" unique_id=1290455117]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.4)
+
+[node name="Panel" type="PanelContainer" parent="WinLayer/WinScreen" unique_id=376640921]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -120.0
+offset_right = 180.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="WinLayer/WinScreen/Panel" unique_id=1122870034]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="WinTitle" type="Label" parent="WinLayer/WinScreen/Panel/VBox" unique_id=2031456787]
+layout_mode = 2
+text = "You Win!"
+label_settings = SubResource("LabelSettings_win")
+horizontal_alignment = 1
+
+[node name="WinTime" type="Label" parent="WinLayer/WinScreen/Panel/VBox" unique_id=655019843]
+layout_mode = 2
+text = "Time: 00:00.00"
+label_settings = SubResource("LabelSettings_x4b8f")
+horizontal_alignment = 1
+
+[node name="ContinueHint" type="Label" parent="WinLayer/WinScreen/Panel/VBox" unique_id=1406677252]
+modulate = Color(1, 1, 1, 0.7)
+layout_mode = 2
+text = "Click anywhere to continue"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="CanvasLayer/Control/Linear Button" to="CanvasLayer/Control" method="_on_linear_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Quadratic Button" to="CanvasLayer/Control" method="_on_quadratic_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Exponential Button" to="CanvasLayer/Control" method="_on_exponential_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Sine Button" to="CanvasLayer/Control" method="_on_sine_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Logarithm Button" to="CanvasLayer/Control" method="_on_logarithm_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/DrawButton" to="CanvasLayer/Control" method="_on_draw_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/ClearButton" to="CanvasLayer/Control" method="_on_clear_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/SettingsButton" to="CanvasLayer/Control" method="_on_settings_button_pressed"]

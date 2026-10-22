@@ -23,7 +23,10 @@ func _process(delta: float) -> void:
 
 
 func _on_back_to_game_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/test_level.tscn")
+	if Globals.last_game_is_daily:
+		get_tree().change_scene_to_file("res://scenes/daily.tscn")
+	else:
+		get_tree().change_scene_to_file("res://scenes/test_level.tscn")
 
 
 func _on_back_to_home_pressed() -> void:

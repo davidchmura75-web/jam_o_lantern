@@ -11,8 +11,14 @@ const Y_SCALE = 10
 # How many graph points get drawn each frame while animating, higher is faster
 # 400 samples / 8 = 50 frames, about 0.8 seconds at 60 FPS
 const POINTS_PER_FRAME = 8
+# Where in the evil sound to start playing from, in seconds
+const EVIL_SOUND_START = 0.8
 
 signal evil_point_hit(index)
+# Emitted when the line reaches a target point it goes through, index matches the points array passed to plot
+signal point_hit(index)
+# Emitted at the start of every draw and when the graph is cleared, so old green points go back to normal
+signal points_reset
 
 @export var evil_color: Color = Color(0.9, 0.1, 0.1):
 	set(value):
@@ -25,6 +31,7 @@ signal evil_point_hit(index)
 
 # Sound played when the graph goes through one of the points, rename the path if the child has a different name
 @onready var hit_sound: AudioStreamPlayer2D = $AudioStreamPlayer2D
+@onready var evil_audio_stream_player_2d: AudioStreamPlayer2D = $"../PointsControl/EVILAudioStreamPlayer2D"
 
 var drawing = false
 # Goes up by one every draw, lets an old animated draw notice a newer one started and stop
@@ -169,19 +176,26 @@ func plot(f: Callable, points, animate := false) -> bool:
 		# Templates could be additive, like adding trig to linear is interesting
 		samples.append(Vector2(x_val, f.call(x_val)))
 	var valid = true
-	# Pixel x of every point the function goes through, the sound plays when the line reaches each one
-	var hit_point_pixels = []
-	for point in points:
+	# Pixel x -> indices of the points at that x, the sound and point_hit fire when the line reaches it
+	# A dictionary so two points with the same x both get reported
+	var hit_point_pixels = {}
+	for index in points.size():
+		var point = points[index]
 		var y_val = f.call(point.x)
 		# NaN fails every comparison, so check it directly or an undefined function would count as valid
 		if not is_finite(y_val) or abs(y_val - point.y) > TOLERANCE:
 			valid = false
 		else:
-			hit_point_pixels.append(clampi(roundi(point.x / X_SCALE), -WIDTH, WIDTH - 1))
+			var px = clampi(roundi(point.x / X_SCALE), -WIDTH, WIDTH - 1)
+			if not hit_point_pixels.has(px):
+				hit_point_pixels[px] = []
+			hit_point_pixels[px].append(index)
 	var hit_evil_points = get_hit_evil_points(samples)
 	if not hit_evil_points.is_empty():
 		valid = false
 	clear_segments()
+	# Turn every point back to normal before this draw starts lighting them up
+	points_reset.emit()
 	# The line currently being added to, starts as this line and swaps to a new segment on each re-entry
 	var segment: Line2D = self
 	var segment_started = false
@@ -204,8 +218,10 @@ func plot(f: Callable, points, animate := false) -> bool:
 			if my_id != draw_id:
 				return valid
 		var x = i - WIDTH
-		if x in hit_point_pixels:
+		if hit_point_pixels.has(x):
 			hit_sound.play()
+			for index in hit_point_pixels[x]:
+				point_hit.emit(index)
 		var y_val = samples[i].y
 		# IMPORTANT - Godot flips y axis so always flip y in the point generation
 		var rel_point = Vector2(x, -1 * (y_val * Y_SCALE))
@@ -234,6 +250,9 @@ func plot(f: Callable, points, animate := false) -> bool:
 			last_point_oob = true
 		last_y_val = y_val
 	drawing = false
+	# Play once even if several evil points were hit, starting partway into the sound
+	if not hit_evil_points.is_empty():
+		evil_audio_stream_player_2d.play(EVIL_SOUND_START)
 	for index in hit_evil_points:
 		evil_point_hit.emit(index)
 	return valid
@@ -266,3 +285,5 @@ func draw_logarithm(a, b, c, d, points):
 func clear_button_points():
 	if not drawing:
 		clear_segments()
+		# Clearing the graph also turns the points back to normal
+		points_reset.emit()

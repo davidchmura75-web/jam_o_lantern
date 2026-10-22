@@ -110,7 +110,7 @@ offset_bottom = -104.0
 theme = ExtResource("2_ba0ut")
 min_value = 0.1
 max_value = 20.0
-step = 0.1
+step = 0.01
 value = 1.0
 
 [node name="SnapLabel" type="Label" parent="CanvasLayer/UI" unique_id=1272016546]

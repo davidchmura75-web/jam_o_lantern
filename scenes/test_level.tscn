@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://c421m6wdh66fw" path="res://sfx/u_jspnqv1glx-1gift-confetti-447240.mp3" id="2_qcd3b"]
 [ext_resource type="Theme" uid="uid://omu8gim4ab6w" path="res://themes/spin_box_better.tres" id="3_j6w7d"]
 [ext_resource type="AudioStream" uid="uid://dj7xyr2047nuk" path="res://sfx/freesound_community-water-drip-45622.mp3" id="3_tmr53"]
+[ext_resource type="AudioStream" uid="uid://cj32aso26qkf3" path="res://sfx/freesound_community-gong-54358.mp3" id="4_7gix3"]
 [ext_resource type="Texture2D" uid="uid://bst3egq3ljyo1" path="res://sprites/gear.png" id="7_88ety"]
 
 [sub_resource type="Gradient" id="Gradient_tmr53"]
@@ -106,6 +107,10 @@ process_material = SubResource("ParticleProcessMaterial_6pmnr")
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="CanvasLayer/PointsControl" unique_id=249686502]
 stream = ExtResource("2_qcd3b")
 
+[node name="EVILAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="CanvasLayer/PointsControl" unique_id=442264993]
+stream = ExtResource("4_7gix3")
+volume_db = 4.136
+
 [node name="Line2D" type="Line2D" parent="CanvasLayer" unique_id=741569966]
 top_level = true
 width = 2.0
@@ -187,7 +192,7 @@ offset_right = -401.0
 offset_bottom = -48.0
 theme = ExtResource("3_j6w7d")
 min_value = -100.0
-step = 0.01
+step = 0.001
 
 [node name="Linear Intercept" type="SpinBox" parent="CanvasLayer/Control/Linear" unique_id=667777221]
 offset_left = -345.0
@@ -197,7 +202,7 @@ offset_bottom = -48.0
 theme = ExtResource("3_j6w7d")
 min_value = -200.0
 max_value = 200.0
-step = 0.1
+step = 0.001
 
 [node name="Exponential" type="Node" parent="CanvasLayer/Control" unique_id=720766398]
 
@@ -217,7 +222,7 @@ offset_right = -430.0
 offset_bottom = 5.0
 theme = ExtResource("3_j6w7d")
 min_value = -100.0
-step = 0.01
+step = 0.001
 value = 1.0
 metadata/_edit_use_anchors_ = true
 
@@ -229,7 +234,7 @@ offset_bottom = 5.0
 theme = ExtResource("3_j6w7d")
 min_value = -200.0
 max_value = 200.0
-step = 0.1
+step = 0.001
 metadata/_edit_use_anchors_ = true
 
 [node name="Exponent B" type="SpinBox" parent="CanvasLayer/Control/Exponential" unique_id=1450437576]
@@ -240,7 +245,7 @@ offset_bottom = 5.0
 theme = ExtResource("3_j6w7d")
 min_value = -200.0
 max_value = 200.0
-step = 0.1
+step = 0.001
 value = 1.0
 metadata/_edit_use_anchors_ = true
 
@@ -252,7 +257,7 @@ offset_bottom = 5.0
 theme = ExtResource("3_j6w7d")
 min_value = -200.0
 max_value = 200.0
-step = 0.1
+step = 0.001
 metadata/_edit_use_anchors_ = true
 
 [node name="Logarithm" type="Node" parent="CanvasLayer/Control" unique_id=1183798845]
@@ -275,7 +280,7 @@ offset_right = -411.0
 offset_bottom = 100.0
 theme = ExtResource("3_j6w7d")
 max_value = 50.0
-step = 0.01
+step = 0.001
 value = 10.0
 metadata/_edit_use_anchors_ = true
 
@@ -287,7 +292,7 @@ offset_bottom = 48.0
 theme = ExtResource("3_j6w7d")
 min_value = -200.0
 max_value = 200.0
-step = 0.1
+step = 0.001
 metadata/_edit_use_anchors_ = true
 
 [node name="Log X Power" type="SpinBox" parent="CanvasLayer/Control/Logarithm" unique_id=860601506]
@@ -298,7 +303,7 @@ offset_bottom = 48.0
 theme = ExtResource("3_j6w7d")
 min_value = -200.0
 max_value = 200.0
-step = 0.1
+step = 0.001
 value = 1.0
 metadata/_edit_use_anchors_ = true
 
@@ -310,7 +315,7 @@ offset_bottom = 49.0
 theme = ExtResource("3_j6w7d")
 min_value = -200.0
 max_value = 200.0
-step = 0.1
+step = 0.001
 metadata/_edit_use_anchors_ = true
 
 [node name="Quadratic" type="Node" parent="CanvasLayer/Control" unique_id=95546932]
@@ -333,7 +338,7 @@ offset_bottom = 72.0
 theme = ExtResource("3_j6w7d")
 min_value = -200.0
 max_value = 200.0
-step = 0.1
+step = 0.001
 metadata/_edit_use_anchors_ = true
 
 [node name="Quad A" type="SpinBox" parent="CanvasLayer/Control/Quadratic" unique_id=1915819141]
@@ -344,7 +349,7 @@ offset_bottom = 72.0
 theme = ExtResource("3_j6w7d")
 min_value = -200.0
 max_value = 200.0
-step = 0.1
+step = 0.001
 value = 1.0
 metadata/_edit_use_anchors_ = true
 
@@ -356,7 +361,7 @@ offset_bottom = 73.0
 theme = ExtResource("3_j6w7d")
 min_value = -200.0
 max_value = 200.0
-step = 0.1
+step = 0.001
 metadata/_edit_use_anchors_ = true
 
 [node name="Sine Wave" type="Node" parent="CanvasLayer/Control" unique_id=1062241244]
@@ -379,7 +384,7 @@ offset_bottom = 140.0
 theme = ExtResource("3_j6w7d")
 min_value = -200.0
 max_value = 200.0
-step = 0.1
+step = 0.001
 value = 1.0
 metadata/_edit_use_anchors_ = true
 
@@ -391,7 +396,7 @@ offset_bottom = 140.0
 theme = ExtResource("3_j6w7d")
 min_value = -5.0
 max_value = 5.0
-step = 0.1
+step = 0.001
 value = 1.0
 metadata/_edit_use_anchors_ = true
 
@@ -403,7 +408,7 @@ offset_bottom = 140.0
 theme = ExtResource("3_j6w7d")
 min_value = -200.0
 max_value = 200.0
-step = 0.1
+step = 0.001
 metadata/_edit_use_anchors_ = true
 
 [node name="Sine D" type="SpinBox" parent="CanvasLayer/Control/Sine Wave" unique_id=332408045]
@@ -414,7 +419,7 @@ offset_bottom = 140.0
 theme = ExtResource("3_j6w7d")
 min_value = -200.0
 max_value = 200.0
-step = 0.1
+step = 0.001
 metadata/_edit_use_anchors_ = true
 
 [node name="DrawButton" type="Button" parent="CanvasLayer/Control" unique_id=542135763]

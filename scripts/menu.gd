@@ -13,6 +13,7 @@ func _process(_delta: float) -> void:
 
 func _on_play_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/test_level.tscn")
+	Globals.last_game_is_daily = false
 
 
 func _on_settings_pressed() -> void:
@@ -22,6 +23,7 @@ func _on_settings_pressed() -> void:
 
 func _on_daily_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/daily.tscn")
+	Globals.last_game_is_daily = true
 
 
 
