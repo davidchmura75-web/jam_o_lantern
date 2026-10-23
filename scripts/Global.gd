@@ -7,6 +7,7 @@ var evil_mode = false
 var level = 0
 var slow_mode = 1
 var last_game_is_daily = false
+var time = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

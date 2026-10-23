@@ -20,12 +20,14 @@ var can_leave: bool = false
 
 func _ready() -> void:
 	win_screen.hide()
+	elapsed = Globals.time
 	timer_label.text = format_time(elapsed)
 
 
 func _process(delta: float) -> void:
 	if running:
 		elapsed += delta
+		Globals.time += delta
 		timer_label.text = format_time(elapsed)
 
 
